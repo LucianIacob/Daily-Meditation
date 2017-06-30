@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">매일 명상</string>
+
+    <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=klb</string>
+    <string name="error_occurred">An error has occurred.</string>
+    <string name="verse_of_the_day">Verse of the day</string>
+    <string name="thought_of_the_day">Thought of the day</string>
+    <string name="passage_of_the_day">Passage of the day</string>
+
+</resources>
