@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -57,17 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mRssClient = new AsyncRssClient();
         initAds();
         readVerse();
-        mShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareCompat.IntentBuilder.from(MainActivity.this)
-                        .setType("message/rfc822")
-                        .setSubject(mVerseHeader.getText().toString())
-                        .setText(mVerseTextView.getText())
-                        .setChooserTitle(getString(R.string.send_verse))
-                        .startChooser();
-            }
-        });
+        setShareButton();
     }
 
     private void initAds() {
@@ -114,6 +103,19 @@ public class MainActivity extends AppCompatActivity {
                         mNumberOfTries = 0;
                     }
                 }
+            }
+        });
+    }
+
+    private void setShareButton() {
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mVerseTextView.getText().toString());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_verse)));
             }
         });
     }
