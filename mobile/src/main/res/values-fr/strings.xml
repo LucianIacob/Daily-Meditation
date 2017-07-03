@@ -3,9 +3,11 @@
     <string name="app_name">Méditation quotidienne</string>
 
     <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=bds</string>
-    <string name="error_occurred">An error has occurred.</string>
-    <string name="verse_of_the_day">Verse of the day</string>
-    <string name="thought_of_the_day">Thought of the day</string>
-    <string name="passage_of_the_day">Passage of the day</string>
+    <string name="error_occurred">Une erreur est survenue.</string>
+    <string name="verse_of_the_day">Verse du jour</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="network_error">Pas de réseau disponible.</string>
+    <string name="share">PARTAGER</string>
+    <string name="send_verse">Envoyer un verset</string>
 
 </resources>

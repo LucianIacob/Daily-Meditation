@@ -5,7 +5,9 @@
     <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=ntlr</string>
     <string name="error_occurred">A apărut o eroare.</string>
     <string name="verse_of_the_day">Versetul zilei</string>
-    <string name="thought_of_the_day">Gândul zilei</string>
-    <string name="passage_of_the_day">Pasajul zilei</string>
+    <string name="today">Astazi</string>
+    <string name="network_error">Lipsa conexiune.</string>
+    <string name="share">TRIMITE</string>
+    <string name="send_verse">Trimite pasaj</string>
 
 </resources>

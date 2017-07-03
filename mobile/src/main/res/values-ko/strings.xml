@@ -3,9 +3,11 @@
     <string name="app_name">매일 명상</string>
 
     <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=klb</string>
-    <string name="error_occurred">An error has occurred.</string>
-    <string name="verse_of_the_day">Verse of the day</string>
-    <string name="thought_of_the_day">Thought of the day</string>
-    <string name="passage_of_the_day">Passage of the day</string>
+    <string name="error_occurred">오류가 발생했습니다.</string>
+    <string name="verse_of_the_day">오늘의 절</string>
+    <string name="today">오늘</string>
+    <string name="network_error">사용할 수있는 네트워크가 없습니다.</string>
+    <string name="share">몫</string>
+    <string name="send_verse">구절을 보내라.</string>
 
 </resources>

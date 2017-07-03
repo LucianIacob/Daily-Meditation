@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:rectLayout="@layout/rect_activity_main"
     app:roundLayout="@layout/round_activity_main"
-    tools:context="com.android.dailymeditation.MainActivity"
+    tools:context="com.dailymeditation.android.MainActivity"
     tools:deviceIds="wear">
 
 

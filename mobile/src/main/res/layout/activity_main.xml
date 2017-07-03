@@ -4,27 +4,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.dailymeditation.MainActivity">
+    tools:context="com.dailymeditation.android.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="8dp"
+        android:background="@android:color/white"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/icon_header"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_wb_sunny_black_36px"
+            app:layout_constraintBottom_toBottomOf="@+id/verse_path"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/verse_header" />
 
         <TextView
-            android:id="@+id/verse_header"
+            android:id="@id/verse_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@string/verse_of_the_day"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toRightOf="@+id/icon_header"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/verse"
-            android:layout_width="match_parent"
+            android:id="@+id/verse_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/today"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@+id/verse_header"
+            app:layout_constraintTop_toBottomOf="@+id/verse_header" />
+
+        <TextView
+            android:id="@id/verse_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="@+id/verse_header"
+            app:layout_constraintTop_toBottomOf="@+id/verse_date" />
+
+        <View
+            android:id="@+id/first_delimiter"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/verse_header" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verse_path" />
+
+        <TextView
+            android:id="@+id/share_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:padding="10dp"
+            android:text="@string/share"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="@id/icon_header"
+            app:layout_constraintTop_toBottomOf="@+id/first_delimiter" />
+
+        <View
+            android:id="@+id/second_delimiter"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/share_button" />
+
+        <RelativeLayout
+            android:id="@+id/verse_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/second_delimiter">
+
+            <TextView
+                android:id="@+id/verse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/loading_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:indeterminateDrawable="@drawable/spinner_black_loading"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-1064911163417192/2951545067"
+            ads:layout_constraintLeft_toLeftOf="parent"
+            ads:layout_constraintRight_toRightOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/verse_container" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

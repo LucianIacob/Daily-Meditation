@@ -5,7 +5,9 @@
     <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=niv</string>
     <string name="error_occurred">An error has occurred.</string>
     <string name="verse_of_the_day">Verse of the day</string>
-    <string name="thought_of_the_day">Thought of the day</string>
-    <string name="passage_of_the_day">Passage of the day</string>
+    <string name="today">Today</string>
+    <string name="network_error">No network available.</string>
+    <string name="share">SHARE</string>
+    <string name="send_verse">Send verse</string>
 
 </resources>
