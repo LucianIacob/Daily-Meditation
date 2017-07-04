@@ -9,5 +9,6 @@
     <string name="network_error">Intet netværk tilgængeligt.</string>
     <string name="share">DEL</string>
     <string name="send_verse">Send vers</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>

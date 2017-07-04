@@ -9,5 +9,6 @@
     <string name="network_error">Ingen nettverk tilgjengelig.</string>
     <string name="share">DELE</string>
     <string name="send_verse">Send et vers</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>

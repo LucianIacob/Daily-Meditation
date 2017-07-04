@@ -9,5 +9,6 @@
     <string name="network_error">사용할 수있는 네트워크가 없습니다.</string>
     <string name="share">몫</string>
     <string name="send_verse">구절을 보내라.</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>

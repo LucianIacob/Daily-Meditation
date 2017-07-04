@@ -9,5 +9,6 @@
     <string name="network_error">No network available.</string>
     <string name="share">SHARE</string>
     <string name="send_verse">Send verse</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>

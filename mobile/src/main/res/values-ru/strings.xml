@@ -9,5 +9,6 @@
     <string name="network_error">Нет сети.</string>
     <string name="share">ДОЛЯ</string>
     <string name="send_verse">Отправить стих</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>

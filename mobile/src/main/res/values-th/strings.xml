@@ -9,5 +9,6 @@
     <string name="network_error">ไม่มีเครือข่าย</string>
     <string name="share">หุ้น</string>
     <string name="send_verse">ส่งกลอน</string>
+    <string name="action_feedback">Give feedback</string>
 
 </resources>
