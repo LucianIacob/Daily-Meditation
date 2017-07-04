@@ -9,8 +9,8 @@
     <string name="network_error">Нет сети.</string>
     <string name="share">ДОЛЯ</string>
     <string name="send_verse">Отправить стих</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">Дать обратную связь</string>
+    <string name="loading">Loading…</string>
+    <string name="verse_not_loaded">Не загружен стих</string>
 
 </resources>

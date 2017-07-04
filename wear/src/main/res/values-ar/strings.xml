@@ -9,8 +9,8 @@
     <string name="network_error">لا تتوفر شبكة.</string>
     <string name="share">شارك</string>
     <string name="send_verse">إرسال الآية</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">إعطاء ردود الفعل</string>
+    <string name="loading">جار التحميل…</string>
+    <string name="verse_not_loaded">لم يتم تحميل الآية</string>
 
 </resources>

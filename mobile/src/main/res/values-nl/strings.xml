@@ -9,7 +9,8 @@
     <string name="network_error">Geen netwerk beschikbaar.</string>
     <string name="share">DELEN</string>
     <string name="send_verse">Stuur een vers</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">Geef feedback</string>
+    <string name="loading">Loading…</string>
+    <string name="verse_not_loaded">Vers niet geladen</string>
 
 </resources>

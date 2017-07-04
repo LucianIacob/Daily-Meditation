@@ -9,8 +9,8 @@
     <string name="network_error">No hay red disponible.</string>
     <string name="share">COMPARTIR</string>
     <string name="send_verse">Enviar verso</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">Dar opinion</string>
+    <string name="loading">Cargando…</string>
+    <string name="verse_not_loaded">Verso no cargado</string>
 
 </resources>

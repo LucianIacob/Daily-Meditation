@@ -9,8 +9,8 @@
     <string name="network_error">Ingen nettverk tilgjengelig.</string>
     <string name="share">DELE</string>
     <string name="send_verse">Send et vers</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">Gi tilbakemelding</string>
+    <string name="loading">Laster…</string>
+    <string name="verse_not_loaded">Vers ikke lastet</string>
 
 </resources>

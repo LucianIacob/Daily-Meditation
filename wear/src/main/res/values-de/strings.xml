@@ -9,8 +9,8 @@
     <string name="network_error">Kein Netz vorhanden.</string>
     <string name="share">AKTIE</string>
     <string name="send_verse">Verse senden</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">Feedback geben</string>
+    <string name="loading">Laden…</string>
+    <string name="verse_not_loaded">Verse nicht geladen</string>
 
 </resources>

@@ -9,8 +9,8 @@
     <string name="network_error">没有网络可用。</string>
     <string name="share">分享</string>
     <string name="send_verse">发一节经文</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="loading">Loading...</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">给予反馈</string>
+    <string name="loading">载入中…</string>
+    <string name="verse_not_loaded">诗句没有加载</string>
 
 </resources>

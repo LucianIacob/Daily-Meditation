@@ -9,7 +9,8 @@
     <string name="network_error">利用可能なネットワークはありません。</string>
     <string name="share">シェア</string>
     <string name="send_verse">詩を送る</string>
-    <string name="action_feedback">Give feedback</string>
-    <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="action_feedback">フィードバックを与えます</string>
+    <string name="loading">読み込んでいます…</string>
+    <string name="verse_not_loaded">詩が読み込まれていない</string>
 
 </resources>
