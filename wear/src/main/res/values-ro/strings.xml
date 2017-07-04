@@ -10,6 +10,7 @@
     <string name="share">TRIMITE</string>
     <string name="send_verse">Trimite pasaj</string>
     <string name="action_feedback">Give feedback</string>
+    <string name="loading">Loading...</string>
     <string name="verse_not_loaded">Verse not loaded</string>
 
 </resources>

@@ -10,6 +10,7 @@
     <string name="share">分享</string>
     <string name="send_verse">发一节经文</string>
     <string name="action_feedback">Give feedback</string>
+    <string name="loading">Loading...</string>
     <string name="verse_not_loaded">Verse not loaded</string>
 
 </resources>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Daily Meditation</string>
 
@@ -9,6 +10,7 @@
     <string name="share">SHARE</string>
     <string name="send_verse">Send verse</string>
     <string name="action_feedback">Give feedback</string>
+    <string name="loading">Loading...</string>
     <string name="verse_not_loaded">Verse not loaded</string>
 
 </resources>

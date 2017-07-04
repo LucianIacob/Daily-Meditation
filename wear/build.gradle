@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 26
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId 'com.dailymeditation.android'
-        minSdkVersion 20
+        minSdkVersion 22
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -22,7 +23,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
     compile 'com.google.android.support:wearable:2.0.3'
+    provided 'com.google.android.wearable:wearable:2.0.3'
     compile 'rejasupotaro:async-rss-client:0.0.6'
-    compile 'com.google.android.gms:play-services-wearable:11.0.1'
+    compile 'com.google.android.gms:play-services-wearable:11.0.2'
 }
