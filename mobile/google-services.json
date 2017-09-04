@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "332957911451",
+    "firebase_url": "https://daily-meditation.firebaseio.com",
+    "project_id": "daily-meditation",
+    "storage_bucket": "daily-meditation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332957911451:android:4effd85c64356d1b",
+        "android_client_info": {
+          "package_name": "com.dailymeditation.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332957911451-qjirg6as5l6pgddk2or9cvg9i9j92h2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dailymeditation.android",
+            "certificate_hash": "c91ab7fc3c714e184d9e0b19d832ef26dbae67b1"
+          }
+        },
+        {
+          "client_id": "332957911451-61tbf4aoidkn5sstom2smj2u214056gr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoB2o29-xVRpw3lsisxRvA282IZzr49mY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332957911451-61tbf4aoidkn5sstom2smj2u214056gr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
