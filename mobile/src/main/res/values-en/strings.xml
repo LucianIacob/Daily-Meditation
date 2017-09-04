@@ -11,5 +11,6 @@
     <string name="send_verse">Send verse</string>
     <string name="action_feedback">Give feedback</string>
     <string name="verse_not_loaded">Verse not loaded</string>
+    <string name="loading">Loading…</string>
 
 </resources>
