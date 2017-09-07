@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dailymeditation.android.R;
-import com.dailymeditation.android.model.Feedback;
+import com.dailymeditation.android.models.Feedback;
 import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
 import com.dailymeditation.android.utils.firebase.DatabaseUtils;

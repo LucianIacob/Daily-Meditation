@@ -1,4 +1,4 @@
-package com.dailymeditation.android.model;
+package com.dailymeditation.android.models;
 
 /**
  * Created with <3 by liacob & <Pi> on 06-Sep-17.
