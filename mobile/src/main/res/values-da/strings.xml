@@ -12,5 +12,8 @@
     <string name="action_feedback">Give tilbagemelding</string>
     <string name="loading">Indlæser…</string>
     <string name="verse_not_loaded">Vers ikke indlæst</string>
+    <string name="feedback_description">Vi arbejder virkelig svært for at give dig den bedste oplevelse, og vi søger altid måder at forbedre.\n\nHvis du har nogen tilbagemelding, send det venligst.</string>
+    <string name="feedback_or_suggestion_hint">Skriv din feedback eller forslag…</string>
+    <string name="thanks_for_feedback">Tak for din tilbagemelding</string>
 
 </resources>

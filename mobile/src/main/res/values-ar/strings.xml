@@ -12,5 +12,8 @@
     <string name="action_feedback">إعطاء ردود الفعل</string>
     <string name="loading">جار التحميل…</string>
     <string name="verse_not_loaded">لم يتم تحميل الآية</string>
+    <string name="feedback_description">نحن نعمل بجد لتوفير أفضل تجربة بالنسبة لك ونحن نبحث دائما عن طرق لتحسين. إذا كان لديك أي ملاحظات، يرجى إرسالها.</string>
+    <string name="feedback_or_suggestion_hint">كتابة تعليقاتك أو اقتراحاتك…</string>
+    <string name="thanks_for_feedback">شكرا لملاحظاتك</string>
 
 </resources>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dailymeditation.android.MainActivity">
+    tools:context="com.dailymeditation.android.activities.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
             android:src="@drawable/ic_wb_sunny_black_36px"
             app:layout_constraintBottom_toBottomOf="@+id/verse_path"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/verse_header" />
+            app:layout_constraintTop_toTopOf="@+id/verse_header"/>
 
         <TextView
             android:id="@id/verse_header"
@@ -30,29 +31,32 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
+            android:fontFamily="@font/droid_sans"
             android:lines="1"
             android:text="@string/verse_of_the_day"
             android:textSize="18sp"
             app:layout_constraintLeft_toRightOf="@+id/icon_header"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/verse_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
             android:text="@string/today"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@+id/verse_header"
-            app:layout_constraintTop_toBottomOf="@+id/verse_header" />
+            app:layout_constraintTop_toBottomOf="@+id/verse_header"/>
 
         <TextView
             android:id="@id/verse_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/droid_sans"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="@+id/verse_header"
-            app:layout_constraintTop_toBottomOf="@+id/verse_date" />
+            app:layout_constraintTop_toBottomOf="@+id/verse_date"/>
 
         <View
             android:id="@+id/first_delimiter"
@@ -62,19 +66,20 @@
             android:background="@android:color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verse_path" />
+            app:layout_constraintTop_toBottomOf="@+id/verse_path"/>
 
         <TextView
             android:id="@+id/share_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:fontFamily="@font/open_sans"
             android:padding="10dp"
             android:text="@string/share"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="@id/icon_header"
-            app:layout_constraintTop_toBottomOf="@+id/first_delimiter" />
+            app:layout_constraintTop_toBottomOf="@+id/first_delimiter"/>
 
         <View
             android:id="@+id/second_delimiter"
@@ -84,7 +89,7 @@
             android:background="@android:color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_button" />
+            app:layout_constraintTop_toBottomOf="@+id/share_button"/>
 
         <RelativeLayout
             android:id="@+id/verse_container"
@@ -98,8 +103,9 @@
                 android:id="@+id/verse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <ProgressBar
                 android:id="@+id/loading_spinner"
@@ -111,10 +117,11 @@
                 android:indeterminateDrawable="@drawable/spinner_black_loading"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </RelativeLayout>
 
-        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,7 +131,7 @@
             ads:adUnitId="ca-app-pub-1064911163417192/2951545067"
             ads:layout_constraintLeft_toLeftOf="parent"
             ads:layout_constraintRight_toRightOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/verse_container" />
+            ads:layout_constraintTop_toBottomOf="@+id/verse_container"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

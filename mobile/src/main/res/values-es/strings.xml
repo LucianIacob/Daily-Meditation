@@ -12,5 +12,8 @@
     <string name="action_feedback">Dar opinion</string>
     <string name="loading">Cargando…</string>
     <string name="verse_not_loaded">Verso no cargado</string>
+    <string name="feedback_description">Trabajamos muy duro para proporcionar la mejor experiencia para usted y siempre estamos buscando maneras de mejorar.\n\nSi tiene algún comentario, por favor envíelo.</string>
+    <string name="feedback_or_suggestion_hint">Escriba sus comentarios o sugerencias…</string>
+    <string name="thanks_for_feedback">Gracias por tus comentarios</string>
 
 </resources>

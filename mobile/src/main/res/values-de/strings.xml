@@ -12,5 +12,8 @@
     <string name="action_feedback">Feedback geben</string>
     <string name="loading">Laden…</string>
     <string name="verse_not_loaded">Verse nicht geladen</string>
+    <string name="feedback_description">Wir arbeiten sehr hart, um die beste Erfahrung für Sie zu bieten und wir sind immer auf der Suche nach Möglichkeiten zur Verbesserung.\n\nWenn Sie Feedback haben, senden Sie es bitte.</string>
+    <string name="feedback_or_suggestion_hint">Schreiben Sie Ihr Feedback oder Vorschlag…</string>
+    <string name="thanks_for_feedback">Vielen Dank für Ihr Feedback</string>
 
 </resources>

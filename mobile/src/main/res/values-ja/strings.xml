@@ -12,5 +12,8 @@
     <string name="action_feedback">フィードバックを与えます</string>
     <string name="loading">読み込んでいます…</string>
     <string name="verse_not_loaded">詩が読み込まれていない</string>
+    <string name="feedback_description">私たちはあなたにとって最高の経験を提供するために本当に懸命に働き、常に向上する方法を探しています。フィードバックがあれば、それを送ってください。</string>
+    <string name="feedback_or_suggestion_hint">あなたの意見や提案を書いてください…</string>
+    <string name="thanks_for_feedback">ご意見ありがとうございます</string>
 
 </resources>

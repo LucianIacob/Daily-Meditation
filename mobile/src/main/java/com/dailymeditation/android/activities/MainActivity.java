@@ -1,4 +1,4 @@
-package com.dailymeditation.android;
+package com.dailymeditation.android.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,12 +13,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dailymeditation.android.utils.AnalyticsUtils;
+import com.dailymeditation.android.R;
+import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
-import com.google.android.gms.ads.AdRequest;
+import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Locale;
 
@@ -45,36 +46,38 @@ public class MainActivity extends AppCompatActivity {
     AdView mAdView;
     @BindView(R.id.share_button)
     TextView mShareButton;
+
+    private InterstitialAd mInterstitialAd;
     private AsyncRssClient mRssClient;
     private int mNumberOfTries = 0;
     private boolean mVerseLoadedSuccessfully = false;
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!mVerseLoadedSuccessfully && Utils.isNetworkAvailable(context)) {
                 readVerse();
+                mInterstitialAd = AdUtils.getInterstitialAd(MainActivity.this);
+                mAdView.loadAd(AdUtils.getAdRequest());
             }
         }
     };
-
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         init();
         readVerse();
         setShareButton();
     }
 
     private void init() {
+        ButterKnife.bind(this);
         mRssClient = new AsyncRssClient();
         MobileAds.initialize(this, getString(R.string.ad_application_code));
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(getString(R.string.test_device_id)).build();
-        mAdView.loadAd(adRequest);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mInterstitialAd = AdUtils.getInterstitialAd(this);
+        mAdView.loadAd(AdUtils.getAdRequest());
     }
 
     private void readVerse() {
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
-                AnalyticsUtils.logVerseLoaded(mFirebaseAnalytics, true, Locale.getDefault().getDisplayLanguage());
+                AnalyticsUtils.logVerseLoaded(MainActivity.this, true, Locale.getDefault().getDisplayLanguage());
             }
 
             @Override
@@ -99,15 +102,15 @@ public class MainActivity extends AppCompatActivity {
                 if (mNumberOfTries < 3 && Utils.isNetworkAvailable(MainActivity.this)) {
                     mNumberOfTries++;
                     readVerse();
-                    AnalyticsUtils.logVerseLoaded(mFirebaseAnalytics, false, getString(R.string.retry_called));
+                    AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.retry_called));
                 } else {
                     if (!Utils.isNetworkAvailable(MainActivity.this)) {
                         mVerseTextView.setText(getString(R.string.network_error));
-                        AnalyticsUtils.logVerseLoaded(mFirebaseAnalytics, false, getString(R.string.no_network));
+                        AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.no_network));
                     } else {
                         mVerseTextView.setText(getString(R.string.error_occurred));
                         mNumberOfTries = 0;
-                        AnalyticsUtils.logVerseLoaded(mFirebaseAnalytics, false, getString(R.string.error_occurred) + throwable.getMessage());
+                        AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.error_occurred) + throwable.getMessage());
                     }
                 }
             }
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, R.string.verse_not_loaded, Toast.LENGTH_LONG).show();
                 }
-                AnalyticsUtils.logShareClick(mFirebaseAnalytics, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
+                AnalyticsUtils.logShareClick(MainActivity.this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
             }
         });
     }
@@ -147,7 +150,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_feedback:
-                AnalyticsUtils.logFeedbackClick(mFirebaseAnalytics, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+                startActivity(new Intent(this, FeedbackActivity.class));
+                AnalyticsUtils.logFeedbackClick(this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

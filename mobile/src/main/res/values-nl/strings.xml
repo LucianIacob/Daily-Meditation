@@ -12,5 +12,8 @@
     <string name="action_feedback">Geef feedback</string>
     <string name="loading">Loading…</string>
     <string name="verse_not_loaded">Vers niet geladen</string>
+    <string name="feedback_description">We werken heel hard om de beste ervaring voor u te bieden en we zoeken altijd naar manieren om te verbeteren.\n\nAls u feedback heeft, stuur het dan alsjeblieft.</string>
+    <string name="feedback_or_suggestion_hint">Schrijf je feedback of suggestie…</string>
+    <string name="thanks_for_feedback">Bedankt voor je feedback</string>
 
 </resources>

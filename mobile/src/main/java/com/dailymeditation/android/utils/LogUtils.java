@@ -8,6 +8,7 @@ import com.dailymeditation.android.BuildConfig;
  * Created with <3 by liacob & <Pi> on 04-Sep-17.
  */
 
+@SuppressWarnings("unused")
 public class LogUtils {
 
     public static void logE(String tag, Exception e) {

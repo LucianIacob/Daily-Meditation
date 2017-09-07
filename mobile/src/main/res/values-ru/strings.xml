@@ -12,5 +12,8 @@
     <string name="action_feedback">Дать обратную связь</string>
     <string name="loading">Loading…</string>
     <string name="verse_not_loaded">Не загружен стих</string>
+    <string name="feedback_description">Мы очень много работаем, чтобы предоставить вам лучший опыт, и мы всегда ищем способы улучшить.\n\nЕсли у вас есть обратная связь, отправьте его.</string>
+    <string name="feedback_or_suggestion_hint">Напишите свой отзыв или предложение…</string>
+    <string name="thanks_for_feedback">Спасибо за ваш отзыв</string>
 
 </resources>

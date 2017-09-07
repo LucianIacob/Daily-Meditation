@@ -12,5 +12,8 @@
     <string name="action_feedback">给予反馈</string>
     <string name="loading">载入中…</string>
     <string name="verse_not_loaded">诗句没有加载</string>
+    <string name="feedback_description">我们非常努力为您提供最好的体验，我们一直在寻找改进方法。如果您有任何反馈意见，请发送。</string>
+    <string name="feedback_or_suggestion_hint">寫下你的意見或建議…</string>
+    <string name="thanks_for_feedback">感谢您的反馈意见</string>
 
 </resources>
