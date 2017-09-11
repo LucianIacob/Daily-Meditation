@@ -21,14 +21,11 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"/>
 
-        <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name">
         </activity>
+
         <activity
             android:name=".activities.FeedbackActivity"
             android:label="@string/action_feedback"
@@ -37,6 +34,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
         </activity>
+
+        <activity
+            android:name=".activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5d4448d20e679cf6898ea263ef13ea9444bc9a91"/>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFF7"
     tools:context="com.dailymeditation.android.activities.FeedbackActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -47,7 +48,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="60dp"
-            android:alpha="0.05"
+            android:alpha="0.2"
             android:contentDescription="@null"
             android:src="@drawable/ic_feedback_black_24dp"
             app:layout_constraintLeft_toLeftOf="parent"

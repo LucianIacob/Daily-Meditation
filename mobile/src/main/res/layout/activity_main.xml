@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFFFF7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dailymeditation.android.activities.MainActivity">
@@ -11,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@android:color/white"
         android:padding="10dp">
 
         <ImageView

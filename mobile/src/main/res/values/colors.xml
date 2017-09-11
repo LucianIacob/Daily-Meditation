@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fff</color>
-    <color name="colorPrimaryDark">#fff</color>
+    <color name="colorPrimary">#FFFFF0</color>
+    <color name="colorPrimaryDark">#d7b29f</color>
     <color name="colorAccent">#000</color>
+    <color name="splash_icon_color">#af713b</color>
+    <color name="splash_btn_background">#d7b29f</color>
 </resources>

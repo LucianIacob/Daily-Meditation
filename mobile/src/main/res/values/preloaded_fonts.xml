@@ -2,7 +2,9 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/droid_sans</item>
+        <item>@font/gudea</item>
         <item>@font/open_sans</item>
         <item>@font/roboto</item>
+        <item>@font/titillium_web_light</item>
     </array>
 </resources>
