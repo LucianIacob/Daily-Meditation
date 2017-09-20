@@ -15,5 +15,7 @@
     <string name="feedback_description">Vi arbejder virkelig svært for at give dig den bedste oplevelse, og vi søger altid måder at forbedre.\n\nHvis du har nogen tilbagemelding, send det venligst.</string>
     <string name="feedback_or_suggestion_hint">Skriv din feedback eller forslag…</string>
     <string name="thanks_for_feedback">Tak for din tilbagemelding</string>
+    <string name="view_all">SE ALT</string>
+    <string name="verse_will_be_loaded_soon">Vers vil blive indlæst snart</string>
 
 </resources>

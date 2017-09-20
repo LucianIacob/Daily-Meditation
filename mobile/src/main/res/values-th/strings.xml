@@ -15,5 +15,7 @@
     <string name="feedback_description">เราทำงานหนักมากเพื่อมอบประสบการณ์ที่ดีที่สุดให้กับคุณและเรามักมองหาวิธีปรับปรุง หากคุณมีข้อเสนอแนะโปรดส่ง</string>
     <string name="feedback_or_suggestion_hint">เขียนความคิดเห็นหรือคำแนะนำของคุณ…</string>
     <string name="thanks_for_feedback">ขอบคุณสำหรับความคิดเห็นของคุณ</string>
+    <string name="view_all">ดูทั้งหมด</string>
+    <string name="verse_will_be_loaded_soon">กลอนจะถูกโหลดเร็ว ๆ นี้</string>
 
 </resources>

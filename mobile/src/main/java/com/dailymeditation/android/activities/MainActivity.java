@@ -32,6 +32,8 @@ import rejasupotaro.asyncrssclient.RssItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String OPEN_SHARE_DIALOG = "open_share_dialog";
+
     @BindView(R.id.verse_header)
     TextView mVerseHeader;
     @BindView(R.id.verse)
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        readVerse();
+//        readVerse();
         setShareButton();
     }
 
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         MobileAds.initialize(this, getString(R.string.ad_application_code));
         mInterstitialAd = AdUtils.getInterstitialAd(this);
         mAdView.loadAd(AdUtils.getAdRequest());
+        if (!Utils.isNetworkAvailable(MainActivity.this)) {
+            mVerseTextView.setText(getString(R.string.network_error));
+        }
     }
 
     private void readVerse() {
@@ -94,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
                 AnalyticsUtils.logVerseLoaded(MainActivity.this, true, Locale.getDefault().getDisplayLanguage());
+                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
+                    shareVerse();
+                    AnalyticsUtils.logWidgetShare(MainActivity.this);
+                }
             }
 
             @Override
@@ -126,18 +135,22 @@ public class MainActivity extends AppCompatActivity {
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mVerseLoadedSuccessfully) {
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, mVerseTextView.getText().toString());
-                    sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_verse)));
-                } else {
-                    Toast.makeText(MainActivity.this, R.string.verse_not_loaded, Toast.LENGTH_LONG).show();
-                }
-                AnalyticsUtils.logShareClick(MainActivity.this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
+                shareVerse();
             }
         });
+    }
+
+    private void shareVerse() {
+        if (mVerseLoadedSuccessfully) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mVerseTextView.getText().toString());
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_verse)));
+        } else {
+            Toast.makeText(MainActivity.this, R.string.verse_not_loaded, Toast.LENGTH_LONG).show();
+        }
+        AnalyticsUtils.logShareClick(MainActivity.this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
     }
 
     @Override

@@ -25,7 +25,11 @@ public class AnalyticsUtils {
     private static final String PARAM_INTERSTITIAL_ERR = "interstitial_error";
     private static final String EVENT_INTERSTITIAL = "interstitial_displayed";
     private static final String EVENT_INTERSTITIAL_CLICK = "interstitial_click";
+    private static final String EVENT_WIDGET_SHARE = "widget_share";
     private static final String PARAM_LANGUAGE = "language";
+    private static final String EVENT_WIDGET_VIEW_ALL = "widget_view_all";
+    private static final String EVENT_WIDGET_REMOVED = "widget_removed";
+    private static final String EVENT_WIDGET_INSTALLED = "widget_installed";
 
     public static void logVerseLoaded(Context context, boolean isSuccessful, String details) {
         logEvent(context, EVENT_LOAD_VERSE, isSuccessful, details);
@@ -89,6 +93,46 @@ public class AnalyticsUtils {
             bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
 
             FirebaseAnalytics.getInstance(context).logEvent(EVENT_INTERSTITIAL_CLICK, bundle);
+        }
+    }
+
+    public static void logWidgetShare(Context context) {
+        if (!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PARAM_DATE, Utils.getCurrentDate());
+            bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
+
+            FirebaseAnalytics.getInstance(context).logEvent(EVENT_WIDGET_SHARE, bundle);
+        }
+    }
+
+    public static void logWidgetViewAll(Context context) {
+        if (!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PARAM_DATE, Utils.getCurrentDate());
+            bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
+
+            FirebaseAnalytics.getInstance(context).logEvent(EVENT_WIDGET_VIEW_ALL, bundle);
+        }
+    }
+
+    public static void logWidgetInstalled(Context context) {
+        if (!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PARAM_DATE, Utils.getCurrentDate());
+            bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
+
+            FirebaseAnalytics.getInstance(context).logEvent(EVENT_WIDGET_INSTALLED, bundle);
+        }
+    }
+
+    public static void logWidgetDisabled(Context context) {
+        if (!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PARAM_DATE, Utils.getCurrentDate());
+            bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
+
+            FirebaseAnalytics.getInstance(context).logEvent(EVENT_WIDGET_REMOVED, bundle);
         }
     }
 }

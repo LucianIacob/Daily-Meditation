@@ -15,5 +15,7 @@
     <string name="feedback_description">我们非常努力为您提供最好的体验，我们一直在寻找改进方法。如果您有任何反馈意见，请发送。</string>
     <string name="feedback_or_suggestion_hint">寫下你的意見或建議…</string>
     <string name="thanks_for_feedback">感谢您的反馈意见</string>
+    <string name="view_all">查看全部</string>
+    <string name="verse_will_be_loaded_soon">诗将很快加载</string>
 
 </resources>

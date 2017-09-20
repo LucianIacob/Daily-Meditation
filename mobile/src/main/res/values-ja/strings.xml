@@ -15,5 +15,7 @@
     <string name="feedback_description">私たちはあなたにとって最高の経験を提供するために本当に懸命に働き、常に向上する方法を探しています。フィードバックがあれば、それを送ってください。</string>
     <string name="feedback_or_suggestion_hint">あなたの意見や提案を書いてください…</string>
     <string name="thanks_for_feedback">ご意見ありがとうございます</string>
+    <string name="view_all">すべてを見る</string>
+    <string name="verse_will_be_loaded_soon">詩がすぐに読み込まれます</string>
 
 </resources>

@@ -15,5 +15,7 @@
     <string name="feedback_description">We work really hard to provide the best experience for you and we are always looking for ways to improve.\n\nIf you have any feedback, please send it.</string>
     <string name="feedback_or_suggestion_hint">Write your feedback or suggestion…</string>
     <string name="thanks_for_feedback">Thanks for your feedback</string>
+    <string name="view_all">VIEW ALL</string>
+    <string name="verse_will_be_loaded_soon">Verse will be loaded soon</string>
 
 </resources>

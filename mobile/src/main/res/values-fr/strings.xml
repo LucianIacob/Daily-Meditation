@@ -15,5 +15,7 @@
     <string name="feedback_description">Nous travaillons vraiment dur pour vous fournir la meilleure expérience et nous recherchons toujours des moyens d\'améliorer.\n\nSi vous avez des commentaires, merci de l\'envoyer.</string>
     <string name="feedback_or_suggestion_hint">Écrivez vos commentaires ou suggestions…</string>
     <string name="thanks_for_feedback">Merci pour vos commentaires</string>
+    <string name="view_all">VOIR TOUT</string>
+    <string name="verse_will_be_loaded_soon">Le verset sera bientôt chargé</string>
 
 </resources>
