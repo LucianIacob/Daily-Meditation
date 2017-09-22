@@ -67,7 +67,9 @@ public class UpdateWidgetService extends Service {
                 } else {
                     view.setTextViewText(R.id.verse, getString(R.string.error_occurred));
                 }
-                Answers.getInstance().logCustom(new CustomEvent("Widget Failure").putCustomAttribute("reason", throwable.getMessage()));
+                Answers.getInstance().logCustom(new CustomEvent("Widget Failure")
+                        .putCustomAttribute("reason", throwable.getMessage())
+                        .putCustomAttribute("failure_code", i));
             }
         });
     }

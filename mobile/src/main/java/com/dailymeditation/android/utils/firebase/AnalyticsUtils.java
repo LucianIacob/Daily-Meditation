@@ -3,6 +3,8 @@ package com.dailymeditation.android.utils.firebase;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.dailymeditation.android.BuildConfig;
 import com.dailymeditation.android.utils.Utils;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -30,9 +32,20 @@ public class AnalyticsUtils {
     private static final String EVENT_WIDGET_VIEW_ALL = "widget_view_all";
     private static final String EVENT_WIDGET_REMOVED = "widget_removed";
     private static final String EVENT_WIDGET_INSTALLED = "widget_installed";
+    private static final String PARAM_REASON = "request_reason";
 
-    public static void logVerseLoaded(Context context, boolean isSuccessful, String details) {
-        logEvent(context, EVENT_LOAD_VERSE, isSuccessful, details);
+    public static void logVerseLoaded(Context context, int statusCode, boolean isSuccessful, String details) {
+        if (!BuildConfig.DEBUG) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(PARAM_VALID, isSuccessful);
+            bundle.putString(PARAM_DATE, Utils.getCurrentDate());
+            bundle.putString(PARAM_COUNTRY, Utils.getCountryCode());
+            bundle.putInt(PARAM_REASON, statusCode);
+            bundle.putString(PARAM_LANGUAGE, details);
+
+            FirebaseAnalytics.getInstance(context).logEvent(EVENT_LOAD_VERSE, bundle);
+            Answers.getInstance().logCustom(new CustomEvent("Verse Loaded In-App").putCustomAttribute("status_code", statusCode));
+        }
     }
 
     public static void logShareClick(Context context, boolean isSuccessfully, String displayLanguage) {

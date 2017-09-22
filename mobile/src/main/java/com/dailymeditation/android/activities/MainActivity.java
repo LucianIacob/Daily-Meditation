@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
-                AnalyticsUtils.logVerseLoaded(MainActivity.this, true, Locale.getDefault().getDisplayLanguage());
+                AnalyticsUtils.logVerseLoaded(MainActivity.this, 200, true, Locale.getDefault().getDisplayLanguage());
                 if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
                     shareVerse();
                     AnalyticsUtils.logWidgetShare(MainActivity.this);
@@ -111,15 +111,15 @@ public class MainActivity extends AppCompatActivity {
                 if (mNumberOfTries < 3 && Utils.isNetworkAvailable(MainActivity.this)) {
                     mNumberOfTries++;
                     readVerse();
-                    AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.retry_called));
+                    AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.retry_called));
                 } else {
                     if (!Utils.isNetworkAvailable(MainActivity.this)) {
                         mVerseTextView.setText(getString(R.string.network_error));
-                        AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.no_network));
+                        AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.no_network));
                     } else {
                         mVerseTextView.setText(getString(R.string.error_occurred));
                         mNumberOfTries = 0;
-                        AnalyticsUtils.logVerseLoaded(MainActivity.this, false, getString(R.string.error_occurred) + throwable.getMessage());
+                        AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.error_occurred) + throwable.getMessage());
                     }
                 }
             }
