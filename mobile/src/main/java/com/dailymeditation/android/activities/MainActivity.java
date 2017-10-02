@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dailymeditation.android.R;
+import com.dailymeditation.android.models.Passage;
+import com.dailymeditation.android.storage.DatabaseController;
 import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private AsyncRssClient mRssClient;
     private int mNumberOfTries = 0;
     private boolean mVerseLoadedSuccessfully = false;
+    private DatabaseController mDatabaseController;
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -70,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-//        readVerse();
         setShareButton();
     }
 
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if (!Utils.isNetworkAvailable(MainActivity.this)) {
             mVerseTextView.setText(getString(R.string.network_error));
         }
+        mDatabaseController = new DatabaseController(this);
     }
 
     private void readVerse() {
@@ -98,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
+                Passage passage = new Passage(rssItem.getDescription(), rssItem.getTitle(), Utils.getSimpleDate(rssItem.getPubDate()));
+                mDatabaseController.addPassage(passage);
                 AnalyticsUtils.logVerseLoaded(MainActivity.this, 200, true, Locale.getDefault().getDisplayLanguage());
                 if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
                     shareVerse();
