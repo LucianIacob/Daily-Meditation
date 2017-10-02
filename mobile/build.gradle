@@ -19,7 +19,7 @@ repositories {
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'com.dailymeditation.android'
         minSdkVersion 16
