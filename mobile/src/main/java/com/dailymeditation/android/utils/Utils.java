@@ -38,11 +38,12 @@ public class Utils {
         return filter;
     }
 
-    public static String getSimpleDate(String pubDate) {
-        try {  //Fri, 30 Jun 2017 00:00:00 -0600
-            SimpleDateFormat parseFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+    public static String getSimpleDate(boolean isRoLanguage, String pubDate) {
+        try {
+            String pattern = isRoLanguage ? "yyyy-MM-dd'T'HH:mm:ss" : "EEE, d MMM yyyy HH:mm:ss Z";
+            SimpleDateFormat parseFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
             Date date = parseFormat.parse(pubDate);
-            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH);
+            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
             return format.format(date);
         } catch (Exception e) {
             LogUtils.logE(TAG, e);
@@ -59,5 +60,9 @@ public class Utils {
     public static String getCountryCode() {
         TelephonyManager tm = (TelephonyManager) DailyMeditation.getAppContext().getSystemService(TELEPHONY_SERVICE);
         return tm != null ? tm.getNetworkCountryIso() : "";
+    }
+
+    public static boolean isRoLanguage() {
+        return Locale.getDefault().getLanguage().equals("ro");
     }
 }

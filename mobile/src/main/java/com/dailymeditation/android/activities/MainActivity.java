@@ -95,13 +95,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(RssFeed rssFeed) {
                 RssItem rssItem = rssFeed.getRssItems().get(0);
-                mVerseTextView.setText(Html.fromHtml(rssItem.getDescription(), null, null));
-                mVersePath.setText(rssItem.getTitle());
-                mPubDate.setText(Utils.getSimpleDate(rssItem.getPubDate()));
+                boolean isRoLanguage = Utils.isRoLanguage();
+                mVerseTextView.setText(isRoLanguage ? rssItem.getTitle() : Html.fromHtml(rssItem.getDescription(), null, null));
+                mVersePath.setText(isRoLanguage ? "" : rssItem.getTitle());
+                mPubDate.setText(Utils.getSimpleDate(isRoLanguage, rssItem.getPubDate()));
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
-                Passage passage = new Passage(rssItem.getDescription(), rssItem.getTitle(), Utils.getSimpleDate(rssItem.getPubDate()));
+                Passage passage = new Passage(rssItem.getDescription(), rssItem.getTitle(), Utils.getSimpleDate(isRoLanguage, rssItem.getPubDate()));
                 mDatabaseController.addPassage(passage);
                 AnalyticsUtils.logVerseLoaded(MainActivity.this, 200, true, Locale.getDefault().getDisplayLanguage());
                 if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {

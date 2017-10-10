@@ -53,9 +53,10 @@ public class UpdateWidgetService extends Service {
             @Override
             public void onSuccess(RssFeed rssFeed) {
                 RssItem rssItem = rssFeed.getRssItems().get(0);
-                view.setTextViewText(R.id.verse_path, rssItem.getTitle());
-                view.setTextViewText(R.id.verse, Html.fromHtml(rssItem.getDescription(), null, null));
-                view.setTextViewText(R.id.verse_date, Utils.getSimpleDate(rssItem.getPubDate()));
+                boolean isRoLanguage = Utils.isRoLanguage();
+                view.setTextViewText(R.id.verse_path, isRoLanguage ? "" : rssItem.getTitle());
+                view.setTextViewText(R.id.verse, isRoLanguage ? rssItem.getTitle() : Html.fromHtml(rssItem.getDescription(), null, null));
+                view.setTextViewText(R.id.verse_date, Utils.getSimpleDate(isRoLanguage, rssItem.getPubDate()));
                 view.setViewVisibility(R.id.view_all, View.VISIBLE);
                 manager.updateAppWidget(theWidget, view);
             }

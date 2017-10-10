@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Meditatia zilnica</string>
 
-    <string name="verse_url">https://www.biblica.com/resources/verse-of-the-day/?syndication=rss&amp;translation=ntlr</string>
+    <string name="verse_url">https://www.resursecrestine.ro/xml/feed/versetul-zilei</string>
     <string name="error_occurred">A apărut o eroare.</string>
     <string name="verse_of_the_day">Versetul zilei</string>
     <string name="today">Astazi</string>
