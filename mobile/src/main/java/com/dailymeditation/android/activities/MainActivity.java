@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dailymeditation.android.R;
-import com.dailymeditation.android.models.Passage;
-import com.dailymeditation.android.storage.DatabaseController;
 import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
@@ -27,6 +25,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rejasupotaro.asyncrssclient.AsyncRssClient;
 import rejasupotaro.asyncrssclient.AsyncRssResponseHandler;
 import rejasupotaro.asyncrssclient.RssFeed;
@@ -36,27 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String OPEN_SHARE_DIALOG = "open_share_dialog";
 
-    @BindView(R.id.verse_header)
-    TextView mVerseHeader;
-    @BindView(R.id.verse)
-    TextView mVerseTextView;
-    @BindView(R.id.verse_path)
-    TextView mVersePath;
-    @BindView(R.id.verse_date)
-    TextView mPubDate;
-    @BindView(R.id.loading_spinner)
-    View mLoadingSpinner;
-    @BindView(R.id.adView)
-    AdView mAdView;
-    @BindView(R.id.share_button)
-    TextView mShareButton;
+    @BindView(R.id.verse) TextView mVerseTextView;
+    @BindView(R.id.verse_path) TextView mVersePath;
+    @BindView(R.id.verse_date) TextView mPubDate;
+    @BindView(R.id.loading_spinner) View mLoadingSpinner;
+    @BindView(R.id.adView) AdView mAdView;
+    @BindView(R.id.share_button) TextView mShareButton;
 
     private InterstitialAd mInterstitialAd;
     private AsyncRssClient mRssClient;
     private int mNumberOfTries = 0;
     private boolean mVerseLoadedSuccessfully = false;
-    private DatabaseController mDatabaseController;
-
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -67,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         mRssClient = new AsyncRssClient();
         MobileAds.initialize(this, getString(R.string.ad_application_code));
         mInterstitialAd = AdUtils.getInterstitialAd(this);
@@ -85,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         if (!Utils.isNetworkAvailable(MainActivity.this)) {
             mVerseTextView.setText(getString(R.string.network_error));
         }
-        mDatabaseController = new DatabaseController(this);
     }
 
     private void readVerse() {
@@ -102,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
-                Passage passage = new Passage(rssItem.getDescription(), rssItem.getTitle(), Utils.getSimpleDate(isRoLanguage, rssItem.getPubDate()));
-                mDatabaseController.addPassage(passage);
                 AnalyticsUtils.logVerseLoaded(MainActivity.this, 200, true, Locale.getDefault().getDisplayLanguage());
                 if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
                     shareVerse();
@@ -184,23 +171,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, Utils.createConnectivityChangeIntent());
-        if (mAdView != null) {
-            mAdView.resume();
-        }
+        mAdView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        if (mAdView != null) {
-            mAdView.pause();
-        }
+        mAdView.pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mUnbinder.unbind();
         if (mAdView != null) {
             mAdView.destroy();
         }

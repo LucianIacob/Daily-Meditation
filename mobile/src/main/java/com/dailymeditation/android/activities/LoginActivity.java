@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,12 +36,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String STATE_VERIFICATION_FAILED = "VERIF_FAILED";
     private static final String STATE_COLLECT_CODE = "COLLECT_CODE";
     private static boolean COLLECT_PHONE_STATE = true;
-    @BindView(R.id.login_title)
-    TextView mTitle;
-    @BindView(R.id.login_phone_field)
-    EditText mPhoneNumber;
-    @BindView(R.id.login_continue_button)
-    TextView mSendCode;
+
+    @BindView(R.id.login_title) TextView mTitle;
+    @BindView(R.id.login_phone_field) EditText mPhoneNumber;
+    @BindView(R.id.login_continue_button) TextView mSendCode;
+
     private boolean mVerificationInProgress = false;
     private FirebaseAuth mAuth;
     private String mVerificationId;
@@ -74,12 +74,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             updateUI(STATE_COLLECT_CODE, null);
         }
     };
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -188,5 +189,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             verifyPhoneNumberWithCode(mVerificationId, mPhoneNumber.getText().toString());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

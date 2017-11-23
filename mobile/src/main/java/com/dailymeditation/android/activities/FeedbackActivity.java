@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class FeedbackActivity extends AppCompatActivity {
     EditText mFeedbackContent;
 
     private MenuItem mSendFeedback;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -95,5 +97,11 @@ public class FeedbackActivity extends AppCompatActivity {
         Feedback feedback = new Feedback(Utils.getCurrentDate(), countryCode, locale.getDisplayLanguage(), mFeedbackContent.getText().toString());
         DatabaseUtils.uploadFeedback(feedback);
         AnalyticsUtils.logSendFeedback(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

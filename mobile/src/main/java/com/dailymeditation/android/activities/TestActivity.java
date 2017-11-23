@@ -15,6 +15,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.squareup.timessquare.CalendarPickerView.SelectionMode.SINGLE;
 
@@ -22,12 +23,13 @@ public class TestActivity extends AppCompatActivity implements ShakeDetector.Lis
 
     @BindView(R.id.calendar_view)
     CalendarPickerView calendarPickerView;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
@@ -70,5 +72,11 @@ public class TestActivity extends AppCompatActivity implements ShakeDetector.Lis
     @Override
     public void hearShake() {
         Toast.makeText(this, "Don't shake me, bro!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

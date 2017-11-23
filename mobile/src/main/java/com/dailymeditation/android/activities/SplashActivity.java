@@ -14,6 +14,7 @@ import com.dailymeditation.android.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,12 +22,13 @@ public class SplashActivity extends AppCompatActivity {
 
     @BindView(R.id.splash_icon)
     ImageView mSplashIcon;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         init();
         gotoNextScreen();
     }
@@ -50,5 +52,11 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }
