@@ -38,9 +38,9 @@ public class Utils {
         return filter;
     }
 
-    public static String getSimpleDate(boolean isRoLanguage, String pubDate) {
+    public static String getSimpleDate(String pubDate) {
         try {
-            String pattern = isRoLanguage ? "yyyy-MM-dd'T'HH:mm:ss" : "EEE, d MMM yyyy HH:mm:ss Z";
+            String pattern = "EEE, d MMM yyyy HH:mm:ss Z";
             SimpleDateFormat parseFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
             Date date = parseFormat.parse(pubDate);
             SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());

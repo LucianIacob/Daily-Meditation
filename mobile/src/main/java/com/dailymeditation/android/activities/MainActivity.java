@@ -84,10 +84,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(RssFeed rssFeed) {
                 RssItem rssItem = rssFeed.getRssItems().get(0);
-                boolean isRoLanguage = Utils.isRoLanguage();
-                mVerseTextView.setText(isRoLanguage ? rssItem.getTitle() : Html.fromHtml(rssItem.getDescription(), null, null));
-                mVersePath.setText(isRoLanguage ? "" : rssItem.getTitle());
-                mPubDate.setText(Utils.getSimpleDate(isRoLanguage, rssItem.getPubDate()));
+                mVerseTextView.setText(Html.fromHtml(rssItem.getDescription(), null, null));
+                mVersePath.setText(rssItem.getTitle());
+                mPubDate.setText(Utils.getSimpleDate(rssItem.getPubDate()));
                 mNumberOfTries = 0;
                 setLoadingSpinner(false);
                 mVerseLoadedSuccessfully = true;
