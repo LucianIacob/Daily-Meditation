@@ -36,12 +36,15 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'DBT_KEY', DigitalBibleApiKey
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    wearApp project(':wear')
-
     compile rootProject.ext.googleDeps.appCompat
     compile rootProject.ext.googleDeps.coreUtils
     compile rootProject.ext.googleDeps.constraintLayout
