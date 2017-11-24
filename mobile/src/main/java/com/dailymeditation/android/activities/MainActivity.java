@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,10 +18,14 @@ import com.dailymeditation.android.R;
 import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
+import com.faithcomesbyhearing.dbt.Dbt;
+import com.faithcomesbyhearing.dbt.callback.VolumeCallback;
+import com.faithcomesbyhearing.dbt.model.Volume;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -64,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         setShareButton();
+
+        Dbt.getLibraryVolume(null, "text", null, "Eng", new VolumeCallback() {
+            @Override
+            public void success(List<Volume> volumes) {
+                Log.i("BIBLEAPI", "success: " + volumes.size());
+            }
+
+            @Override
+            public void failure(Exception e) {
+                Log.e("BIBLEAPI", "failure: ", e);
+            }
+        });
     }
 
     private void init() {

@@ -32,6 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'DBT_KEY', DigitalBibleApiKey
+    }
 }
 
 dependencies {
@@ -53,6 +57,7 @@ dependencies {
     compile rootProject.ext.thirdPartyDeps.rssClient
     compile rootProject.ext.thirdPartyDeps.timesSquare
     compile rootProject.ext.thirdPartyDeps.seismic
+    compile rootProject.ext.thirdPartyDeps.bibleApi
     compile(rootProject.ext.thirdPartyDeps.fabric) {
         transitive = true
     }

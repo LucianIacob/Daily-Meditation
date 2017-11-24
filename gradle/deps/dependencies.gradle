@@ -43,6 +43,7 @@ ext {
     rssClientVersion = "0.0.6"
     timesSquareVersion = "1.6.5"
     seismicVersion = "1.0.2"
+    bibleApiVersion = "1.0.1"
 
     thirdPartyDeps = [
             butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
@@ -51,7 +52,8 @@ ext {
             rssClient          : "rejasupotaro:async-rss-client:${rssClientVersion}",
             timesSquare        : "com.squareup:android-times-square:${timesSquareVersion}@aar",
             seismic            : "com.squareup:seismic:${seismicVersion}",
-            fabricGradle       : "io.fabric.tools:gradle:${fabricGradleVersion}"
+            fabricGradle       : "io.fabric.tools:gradle:${fabricGradleVersion}",
+            bibleApi           : "com.faithcomesbyhearing:dbt:${bibleApiVersion}"
     ]
 
     // Plugins
