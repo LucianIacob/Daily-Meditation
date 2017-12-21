@@ -39,25 +39,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    wearApp project(':wear')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.googleDeps.appCompat
+    implementation rootProject.ext.googleDeps.coreUtils
+    implementation rootProject.ext.googleDeps.constraintLayout
+    implementation rootProject.ext.googleDeps.playServicesWearable
+    implementation rootProject.ext.googleDeps.ads
+    implementation rootProject.ext.googleDeps.firebaseCore
+    implementation rootProject.ext.googleDeps.firebaseDb
+    implementation rootProject.ext.googleDeps.firebaseAuth
+    implementation rootProject.ext.googleDeps.googleServices
+    implementation rootProject.ext.googleDeps.roomRuntime
 
-    compile rootProject.ext.googleDeps.appCompat
-    compile rootProject.ext.googleDeps.coreUtils
-    compile rootProject.ext.googleDeps.constraintLayout
-    compile rootProject.ext.googleDeps.playServicesWearable
-    compile rootProject.ext.googleDeps.ads
-    compile rootProject.ext.googleDeps.firebaseCore
-    compile rootProject.ext.googleDeps.firebaseDb
-    compile rootProject.ext.googleDeps.firebaseAuth
-    compile rootProject.ext.googleDeps.googleServices
-    compile rootProject.ext.googleDeps.roomRuntime
-
-    compile rootProject.ext.thirdPartyDeps.butterKnife
-    compile rootProject.ext.thirdPartyDeps.rssClient
-    compile rootProject.ext.thirdPartyDeps.timesSquare
-    compile rootProject.ext.thirdPartyDeps.seismic
-    compile(rootProject.ext.thirdPartyDeps.fabric) {
+    implementation rootProject.ext.thirdPartyDeps.butterKnife
+    implementation rootProject.ext.thirdPartyDeps.rssClient
+    implementation rootProject.ext.thirdPartyDeps.timesSquare
+    implementation rootProject.ext.thirdPartyDeps.seismic
+    implementation(rootProject.ext.thirdPartyDeps.fabric) {
         transitive = true
     }
 

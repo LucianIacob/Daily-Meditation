@@ -6,20 +6,20 @@ ext {
     versionCode = 9
 
     // Android
-    androidBuildToolsVersion = "26.0.2"
+    androidBuildToolsVersion = "27.0.2"
     androidCompileSdkVersion = 27
     androidTargetSdkVersion = 27
     androidMinSdkVersion = 16
 
     // Google
-    androidSupportLibVersion = "27.0.0"
+    androidSupportLibVersion = "27.0.2"
     constraintLayoutVersion = "1.0.2"
     architectureComponentsVersion = "1.0.0"
-    playServicesWearableVersion = "11.6.0"
-    playServicesAdsVersion = "11.6.0"
-    firebaseCoreVersion = "11.6.0"
-    firebaseDatabaseVersion = "11.6.0"
-    firebaseAuthVersion = "11.6.0"
+    playServicesWearableVersion = "11.8.0"
+    playServicesAdsVersion = "11.8.0"
+    firebaseCoreVersion = "11.8.0"
+    firebaseDatabaseVersion = "11.8.0"
+    firebaseAuthVersion = "11.8.0"
     googleServicesVersion = "3.1.1"
 
     googleDeps = [
@@ -38,8 +38,8 @@ ext {
 
     // Third party
     butterKnifeVersion = "8.8.1"
-    fabricVersion = "2.7.1"
-    fabricGradleVersion = "1.24.5"
+    fabricVersion = "2.8.0"
+    fabricGradleVersion = "1.25.1"
     rssClientVersion = "0.0.6"
     timesSquareVersion = "1.6.5"
     seismicVersion = "1.0.2"
