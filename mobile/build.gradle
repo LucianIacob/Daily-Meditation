@@ -50,6 +50,7 @@ dependencies {
     implementation rootProject.ext.googleDeps.firebaseAuth
     implementation rootProject.ext.googleDeps.googleServices
     implementation rootProject.ext.googleDeps.roomRuntime
+    implementation rootProject.ext.googleDeps.annotations
 
     implementation rootProject.ext.thirdPartyDeps.butterKnife
     implementation rootProject.ext.thirdPartyDeps.rssClient

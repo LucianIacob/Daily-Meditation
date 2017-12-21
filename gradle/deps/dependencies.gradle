@@ -2,8 +2,8 @@ ext {
 
     // Project
     applicationId = "com.dailymeditation.android"
-    versionName = "1.3.3"
-    versionCode = 9
+    versionName = "1.4.0"
+    versionCode = 10
 
     // Android
     androidBuildToolsVersion = "27.0.2"
@@ -21,6 +21,7 @@ ext {
     firebaseDatabaseVersion = "11.8.0"
     firebaseAuthVersion = "11.8.0"
     googleServicesVersion = "3.1.1"
+    annotationsVersion = "27.0.2"
 
     googleDeps = [
             appCompat           : "com.android.support:appcompat-v7:${androidSupportLibVersion}",
@@ -33,7 +34,8 @@ ext {
             firebaseAuth        : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
             googleServices      : "com.google.gms:google-services:${googleServicesVersion}",
             roomRuntime         : "android.arch.persistence.room:runtime:${architectureComponentsVersion}",
-            roomCompiler        : "android.arch.persistence.room:compiler:${architectureComponentsVersion}"
+            roomCompiler        : "android.arch.persistence.room:compiler:${architectureComponentsVersion}",
+            annotations         : "com.android.support:support-annotations:${annotationsVersion}"
     ]
 
     // Third party
