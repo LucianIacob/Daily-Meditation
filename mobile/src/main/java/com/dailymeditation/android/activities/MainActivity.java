@@ -3,6 +3,7 @@ package com.dailymeditation.android.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -34,6 +35,7 @@ import rejasupotaro.asyncrssclient.RssItem;
 public class MainActivity extends AppCompatActivity {
 
     public static final String OPEN_SHARE_DIALOG = "open_share_dialog";
+    private static final int AD_MOB_VERSION_CODE_ISSUE = Build.VERSION_CODES.O;
 
     @BindView(R.id.verse) TextView mVerseTextView;
     @BindView(R.id.verse_path) TextView mVersePath;
@@ -119,17 +121,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setLoadingSpinner(boolean visibility) {
-        mLoadingSpinner.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        if (mLoadingSpinner != null) {
+            mLoadingSpinner.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        }
         mVerseTextView.setVisibility(visibility ? View.GONE : View.VISIBLE);
     }
 
     private void setShareButton() {
-        mShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareVerse();
-            }
-        });
+        mShareButton.setOnClickListener(v -> shareVerse());
     }
 
     private void shareVerse() {
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_feedback:
-                if (mInterstitialAd.isLoaded()) {
+                if (mInterstitialAd.isLoaded() && Build.VERSION.SDK_INT != AD_MOB_VERSION_CODE_ISSUE) {
                     mInterstitialAd.show();
                 }
                 startActivity(new Intent(this, FeedbackActivity.class));
