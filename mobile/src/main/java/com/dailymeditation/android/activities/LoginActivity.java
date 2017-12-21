@@ -3,6 +3,7 @@ package com.dailymeditation.android.activities;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,11 +12,8 @@ import android.widget.TextView;
 
 import com.dailymeditation.android.R;
 import com.dailymeditation.android.utils.LogUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog mDialog;
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
-        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             mDialog.hide();
             mVerificationInProgress = false;
             signInWithPhoneAuthCredential(phoneAuthCredential);
@@ -77,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Unbinder mUnbinder;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mUnbinder = ButterKnife.bind(this);
@@ -95,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSendCode.setOnClickListener(this);
     }
 
-    private void verifyPhoneNumberWithCode(String verificationId, String code) {
+    private void verifyPhoneNumberWithCode(@NonNull String verificationId, @NonNull String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
     }
@@ -118,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void startPhoneNumberVerification(String phoneNumber) {
+    private void startPhoneNumberVerification(@NonNull String phoneNumber) {
         mDialog.setMessage("Sending code...");
         mDialog.show();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -130,25 +128,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mVerificationInProgress = true;
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
+    private void signInWithPhoneAuthCredential(@NonNull PhoneAuthCredential phoneAuthCredential) {
         mDialog.setMessage("Validating...");
         mDialog.show();
         mAuth.signInWithCredential(phoneAuthCredential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        mDialog.hide();
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = task.getResult().getUser();
-                            updateUI(STATE_SIGNIN_SUCCESS, null);
-                        } else {
-                            updateUI(STATE_SIGNIN_FAILED, task.getException().getMessage());
-                        }
+                .addOnCompleteListener(this, task -> {
+                    mDialog.hide();
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        updateUI(STATE_SIGNIN_SUCCESS, null);
+                    } else {
+                        updateUI(STATE_SIGNIN_FAILED, task.getException().getMessage());
                     }
                 });
     }
 
-    private void updateUI(String state, String err) {
+    private void updateUI(@NonNull String state, String err) {
         switch (state) {
             case STATE_SIGNIN_SUCCESS:
                 mSendCode.setVisibility(View.GONE);
@@ -169,13 +164,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_VERIFY_IN_PROGRESS, mVerificationInProgress);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mVerificationInProgress = savedInstanceState.getBoolean(KEY_VERIFY_IN_PROGRESS);
     }

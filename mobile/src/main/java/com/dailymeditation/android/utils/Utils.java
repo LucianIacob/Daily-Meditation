@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
 import com.dailymeditation.android.DailyMeditation;
@@ -23,7 +24,7 @@ public class Utils {
 
     private static final String TAG = "DAILY_MEDITATION_TAG";
 
-    public static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(@NonNull Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = null;
         if (connectivityManager != null) {
@@ -32,6 +33,7 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    @NonNull
     public static IntentFilter createConnectivityChangeIntent() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -57,12 +59,10 @@ public class Utils {
         return dateFormat.format(date);
     }
 
+    @NonNull
     public static String getCountryCode() {
         TelephonyManager tm = (TelephonyManager) DailyMeditation.getAppContext().getSystemService(TELEPHONY_SERVICE);
         return tm != null ? tm.getNetworkCountryIso() : "";
     }
 
-    public static boolean isRoLanguage() {
-        return Locale.getDefault().getLanguage().equals("ro");
-    }
 }

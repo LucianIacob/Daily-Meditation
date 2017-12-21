@@ -1,6 +1,7 @@
 package com.dailymeditation.android.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -12,9 +13,9 @@ import android.widget.Toast;
 
 import com.dailymeditation.android.R;
 import com.dailymeditation.android.models.Feedback;
+import com.dailymeditation.android.reporting.ReportingManager;
+import com.dailymeditation.android.utils.DatabaseUtils;
 import com.dailymeditation.android.utils.Utils;
-import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
-import com.dailymeditation.android.utils.firebase.DatabaseUtils;
 
 import java.util.Locale;
 
@@ -24,9 +25,22 @@ import butterknife.Unbinder;
 
 public class FeedbackActivity extends AppCompatActivity {
 
+    private final TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            invalidateOptionsMenu();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
     @BindView(R.id.feedback_content)
     EditText mFeedbackContent;
-
     private MenuItem mSendFeedback;
     private Unbinder mUnbinder;
 
@@ -42,24 +56,13 @@ public class FeedbackActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        mFeedbackContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
+        if (mFeedbackContent != null) {
+            mFeedbackContent.addTextChangedListener(mTextWatcher);
+        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_feedback, menu);
         mSendFeedback = menu.findItem(R.id.action_send_feedback);
         return true;
@@ -67,15 +70,18 @@ public class FeedbackActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean enableSend = mFeedbackContent.getText().toString().trim().length() != 0;
+        boolean enableSend = mFeedbackContent != null
+                && mFeedbackContent.getText().toString().trim().length() != 0;
         mSendFeedback.setEnabled(enableSend);
-        mSendFeedback.setIcon(enableSend ? R.drawable.ic_send_black_24dp : R.drawable.ic_send_gray_24dp);
+        mSendFeedback.setIcon(enableSend
+                ? R.drawable.ic_send_black_24dp
+                : R.drawable.ic_send_gray_24dp);
 
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -94,9 +100,13 @@ public class FeedbackActivity extends AppCompatActivity {
         Locale locale = getResources().getConfiguration().locale;
         TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         String countryCode = tm != null ? tm.getNetworkCountryIso() : locale.getISO3Country();
-        Feedback feedback = new Feedback(Utils.getCurrentDate(), countryCode, locale.getDisplayLanguage(), mFeedbackContent.getText().toString());
+        Feedback feedback = new Feedback(
+                Utils.getCurrentDate(),
+                countryCode,
+                Locale.getDefault().getDisplayLanguage(),
+                mFeedbackContent != null ? mFeedbackContent.getText().toString() : "");
         DatabaseUtils.uploadFeedback(feedback);
-        AnalyticsUtils.logSendFeedback(this);
+        ReportingManager.logSentFeedback(this);
     }
 
     @Override

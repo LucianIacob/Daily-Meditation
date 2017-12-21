@@ -4,6 +4,8 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.dailymeditation.android.models.Passage;
 
@@ -14,9 +16,10 @@ import com.dailymeditation.android.models.Passage;
 @Database(entities = {Passage.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static AppDatabase INSTANCE;
+    @Nullable private static AppDatabase INSTANCE;
 
-    public static AppDatabase getAppDatabase(Context context) {
+    @Nullable
+    static AppDatabase getAppDatabase(@NonNull Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room
                     .databaseBuilder(context.getApplicationContext(), AppDatabase.class, "passage-database")

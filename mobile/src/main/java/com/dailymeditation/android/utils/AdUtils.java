@@ -1,9 +1,11 @@
 package com.dailymeditation.android.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.dailymeditation.android.BuildConfig;
-import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
+import com.dailymeditation.android.reporting.AdRequestError;
+import com.dailymeditation.android.reporting.ReportingManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
@@ -13,7 +15,8 @@ import com.google.android.gms.ads.InterstitialAd;
 
 public class AdUtils {
 
-    public static InterstitialAd getInterstitialAd(Context context) {
+    @NonNull
+    public static InterstitialAd getInterstitialAd(@NonNull Context context) {
         InterstitialAd interstitialAd = new InterstitialAd(context);
         interstitialAd.setAdUnitId("ca-app-pub-1064911163417192/5620620596");
         interstitialAd.loadAd(getAdRequest());
@@ -44,37 +47,20 @@ public class AdUtils {
         @Override
         public void onAdFailedToLoad(int errorCode) {
             super.onAdFailedToLoad(errorCode);
-            String errorName;
-            switch (errorCode) {
-                case AdRequest.ERROR_CODE_INTERNAL_ERROR:
-                    errorName = "ERROR_CODE_INTERNAL_ERROR";
-                    break;
-                case AdRequest.ERROR_CODE_INVALID_REQUEST:
-                    errorName = "ERROR_CODE_INVALID_REQUEST";
-                    break;
-                case AdRequest.ERROR_CODE_NETWORK_ERROR:
-                    errorName = "ERROR_CODE_NETWORK_ERROR";
-                    break;
-                case AdRequest.ERROR_CODE_NO_FILL:
-                    errorName = "ERROR_CODE_NO_FILL";
-                    break;
-                default:
-                    errorName = "";
-                    break;
-            }
-            AnalyticsUtils.logInterstitialFailed(context, errorName);
+            AdRequestError adError = AdRequestError.getErrorNameByCode(errorCode);
+            ReportingManager.logErrorInterstitial(context, adError.name());
         }
 
         @Override
         public void onAdOpened() {
             super.onAdOpened();
-            AnalyticsUtils.logInterstitialDisplayed(context);
+            ReportingManager.logShowInterstitial(context);
         }
 
         @Override
         public void onAdClicked() {
             super.onAdClicked();
-            AnalyticsUtils.logInterstitialClick(context);
+            ReportingManager.logClickInterstitial(context);
         }
 
         @Override

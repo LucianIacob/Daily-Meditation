@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -15,12 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dailymeditation.android.R;
+import com.dailymeditation.android.reporting.ReportingManager;
 import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
-import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
+import com.dailymeditation.android.widget.DailyMeditationWidgetProvider;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+
+import org.apache.http.Header;
 
 import java.util.Locale;
 
@@ -32,10 +36,11 @@ import rejasupotaro.asyncrssclient.AsyncRssResponseHandler;
 import rejasupotaro.asyncrssclient.RssFeed;
 import rejasupotaro.asyncrssclient.RssItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncRssResponseHandler {
 
     public static final String OPEN_SHARE_DIALOG = "open_share_dialog";
     private static final int AD_MOB_VERSION_CODE_ISSUE = Build.VERSION_CODES.O;
+    private static final int RSS_READ_MAX_ATTEMPTS = 3;
 
     @BindView(R.id.verse) TextView mVerseTextView;
     @BindView(R.id.verse_path) TextView mVersePath;
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         MobileAds.initialize(this, getString(R.string.ad_application_code));
         mInterstitialAd = AdUtils.getInterstitialAd(this);
         mAdView.loadAd(AdUtils.getAdRequest());
-        if (!Utils.isNetworkAvailable(MainActivity.this)) {
+        if (!Utils.isNetworkAvailable(this)) {
             mVerseTextView.setText(getString(R.string.network_error));
         }
     }
@@ -82,42 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void readVerse() {
         setLoadingSpinner(true);
         mVerseTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        mRssClient.read(getString(R.string.verse_url), new AsyncRssResponseHandler() {
-            @Override
-            public void onSuccess(RssFeed rssFeed) {
-                RssItem rssItem = rssFeed.getRssItems().get(0);
-                mVerseTextView.setText(Html.fromHtml(rssItem.getDescription(), null, null));
-                mVersePath.setText(rssItem.getTitle());
-                mPubDate.setText(Utils.getSimpleDate(rssItem.getPubDate()));
-                mNumberOfTries = 0;
-                setLoadingSpinner(false);
-                mVerseLoadedSuccessfully = true;
-                AnalyticsUtils.logVerseLoaded(MainActivity.this, 200, true, Locale.getDefault().getDisplayLanguage());
-                if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
-                    shareVerse();
-                    AnalyticsUtils.logWidgetShare(MainActivity.this);
-                }
-            }
-
-            @Override
-            public void onFailure(int i, org.apache.http.Header[] headers, byte[] bytes, Throwable throwable) {
-                setLoadingSpinner(false);
-                if (mNumberOfTries < 3 && Utils.isNetworkAvailable(MainActivity.this)) {
-                    mNumberOfTries++;
-                    readVerse();
-                    AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.retry_called));
-                } else {
-                    if (!Utils.isNetworkAvailable(MainActivity.this)) {
-                        mVerseTextView.setText(getString(R.string.network_error));
-                        AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.no_network));
-                    } else {
-                        mVerseTextView.setText(getString(R.string.error_occurred));
-                        mNumberOfTries = 0;
-                        AnalyticsUtils.logVerseLoaded(MainActivity.this, i, false, getString(R.string.error_occurred) + throwable.getMessage());
-                    }
-                }
-            }
-        });
+        mRssClient.read(getString(R.string.verse_url), this);
     }
 
     private void setLoadingSpinner(boolean visibility) {
@@ -128,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setShareButton() {
-        mShareButton.setOnClickListener(v -> shareVerse());
+        mShareButton.setOnClickListener(v -> shareVerse(MainActivity.class.getSimpleName()));
     }
 
-    private void shareVerse() {
+    private void shareVerse(String location) {
         if (mVerseLoadedSuccessfully) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -141,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, R.string.verse_not_loaded, Toast.LENGTH_LONG).show();
         }
-        AnalyticsUtils.logShareClick(MainActivity.this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
+        ReportingManager.logShareClick(
+                MainActivity.this,
+                mVerseLoadedSuccessfully,
+                location);
     }
 
     @Override
@@ -151,14 +124,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_feedback:
                 if (mInterstitialAd.isLoaded() && Build.VERSION.SDK_INT != AD_MOB_VERSION_CODE_ISSUE) {
                     mInterstitialAd.show();
                 }
                 startActivity(new Intent(this, FeedbackActivity.class));
-                AnalyticsUtils.logFeedbackClick(this, mVerseLoadedSuccessfully, Locale.getDefault().getDisplayLanguage());
+                ReportingManager.logOpenFeedback(
+                        this,
+                        mVerseLoadedSuccessfully);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,6 +145,50 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         registerReceiver(broadcastReceiver, Utils.createConnectivityChangeIntent());
         mAdView.resume();
+    }
+
+    @Override
+    public void onSuccess(@NonNull RssFeed rssFeed) {
+        bindRssItem(rssFeed.getRssItems().get(0));
+        mNumberOfTries = 0;
+        setLoadingSpinner(false);
+        mVerseLoadedSuccessfully = true;
+        ReportingManager.logVerseLoaded(
+                MainActivity.this,
+                ReportingManager.STATUS_CODE_OK,
+                true,
+                Locale.getDefault().getDisplayLanguage());
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
+            shareVerse(DailyMeditationWidgetProvider.class.getSimpleName());
+        }
+    }
+
+    private void bindRssItem(@NonNull RssItem rssItem) {
+        mVerseTextView.setText(Html.fromHtml(rssItem.getDescription(), null, null));
+        mVersePath.setText(rssItem.getTitle());
+        mPubDate.setText(Utils.getSimpleDate(rssItem.getPubDate()));
+    }
+
+    @Override
+    public void onFailure(int i, Header[] headers, byte[] bytes, @NonNull Throwable throwable) {
+        setLoadingSpinner(false);
+        String reportDetails;
+        if (mNumberOfTries < RSS_READ_MAX_ATTEMPTS && Utils.isNetworkAvailable(this)) {
+            mNumberOfTries++;
+            readVerse();
+            reportDetails = getString(R.string.retry_called);
+        } else {
+            mNumberOfTries = 0;
+            mVerseTextView.setText(getString(Utils.isNetworkAvailable(this)
+                    ? R.string.error_occurred
+                    : R.string.network_error));
+            reportDetails = getString(R.string.error_occurred) + throwable.getMessage();
+        }
+        ReportingManager.logVerseLoaded(
+                this,
+                i,
+                false,
+                reportDetails);
     }
 
     @Override

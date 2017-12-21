@@ -7,12 +7,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.dailymeditation.android.activities.MainActivity;
+import com.dailymeditation.android.reporting.ReportingManager;
 import com.dailymeditation.android.service.UpdateWidgetService;
-import com.dailymeditation.android.utils.firebase.AnalyticsUtils;
 
 /**
  * Created with <3 by liacob & <Pi> on 18-Sep-17.
@@ -26,7 +25,7 @@ public class DailyMeditationWidgetProvider extends AppWidgetProvider {
     private PendingIntent pendingIntent;
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(@NonNull Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         final Intent i = new Intent(context, UpdateWidgetService.class);
 
@@ -40,7 +39,7 @@ public class DailyMeditationWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
         if (intent.getAction() == null) {
             return;
@@ -53,22 +52,20 @@ public class DailyMeditationWidgetProvider extends AppWidgetProvider {
             case OPEN_MAIN_ACTIVITY:
                 mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(mainActivityIntent);
-                AnalyticsUtils.logWidgetViewAll(context);
+                ReportingManager.logViewWidget(context);
                 break;
         }
     }
 
     @Override
-    public void onEnabled(Context context) {
+    public void onEnabled(@NonNull Context context) {
         super.onEnabled(context);
-        AnalyticsUtils.logWidgetInstalled(context);
-        Answers.getInstance().logCustom(new CustomEvent("Widget Created"));
+        ReportingManager.logInstallWidget(context);
     }
 
     @Override
-    public void onDisabled(Context context) {
+    public void onDisabled(@NonNull Context context) {
         super.onDisabled(context);
-        AnalyticsUtils.logWidgetDisabled(context);
-        Answers.getInstance().logCustom(new CustomEvent("Widget Removed"));
+        ReportingManager.logUninstallWidget(context);
     }
 }
