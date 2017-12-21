@@ -15,20 +15,23 @@ public class DailyMeditation extends Application {
 
     private static DailyMeditation sInstance;
 
+    public static Context getAppContext() {
+        return sInstance.getApplicationContext();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        setupInstance();
+        setupFabric();
+    }
+
+    private void setupInstance() {
         sInstance = this;
+    }
 
+    private void setupFabric() {
         Fabric.with(this, new Crashlytics());
-    }
-
-    public static DailyMeditation getInstance() {
-        return sInstance;
-    }
-
-    public static Context getAppContext() {
-        return getInstance().getApplicationContext();
     }
 
 }
