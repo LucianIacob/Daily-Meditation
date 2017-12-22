@@ -56,6 +56,7 @@ dependencies {
     implementation rootProject.ext.thirdPartyDeps.rssClient
     implementation rootProject.ext.thirdPartyDeps.timesSquare
     implementation rootProject.ext.thirdPartyDeps.seismic
+    implementation rootProject.ext.thirdPartyDeps.jetbrainsAnnotations
     implementation(rootProject.ext.thirdPartyDeps.fabric) {
         transitive = true
     }

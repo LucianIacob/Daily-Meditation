@@ -22,7 +22,6 @@ import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.widget.DailyMeditationWidgetProvider;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 
 import org.apache.http.Header;
 
@@ -46,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     @BindView(R.id.verse_path) TextView mVersePath;
     @BindView(R.id.verse_date) TextView mPubDate;
     @BindView(R.id.loading_spinner) View mLoadingSpinner;
-    @BindView(R.id.adView) AdView mAdView;
+    @BindView(R.id.banner_ad) AdView mBannerAd;
     @BindView(R.id.share_button) TextView mShareButton;
 
+    private Unbinder mUnbinder;
     private InterstitialAd mInterstitialAd;
     private AsyncRssClient mRssClient;
     private int mNumberOfTries = 0;
@@ -56,32 +56,36 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!mVerseLoadedSuccessfully && Utils.isNetworkAvailable(context)) {
+            if (!mVerseLoadedSuccessfully && Utils.isNetworkAvailable()) {
                 readVerse();
-                mInterstitialAd = AdUtils.getInterstitialAd(MainActivity.this);
-                mAdView.loadAd(AdUtils.getAdRequest());
+                loadAds();
             }
         }
     };
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        loadAds();
         setShareButton();
     }
 
     private void init() {
         mUnbinder = ButterKnife.bind(this);
         mRssClient = new AsyncRssClient();
-        MobileAds.initialize(this, getString(R.string.ad_application_code));
-        mInterstitialAd = AdUtils.getInterstitialAd(this);
-        mAdView.loadAd(AdUtils.getAdRequest());
-        if (!Utils.isNetworkAvailable(this)) {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = AdUtils.setupInterstitialAd(mInterstitialAd);
+        mBannerAd = AdUtils.setupBannerAd(mBannerAd);
+        if (!Utils.isNetworkAvailable()) {
             mVerseTextView.setText(getString(R.string.network_error));
         }
+    }
+
+    private void loadAds() {
+        mInterstitialAd.loadAd(AdUtils.getAdRequest());
+        mBannerAd.loadAd(AdUtils.getAdRequest());
     }
 
     private void readVerse() {
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     protected void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, Utils.createConnectivityChangeIntent());
-        mAdView.resume();
+        mBannerAd.resume();
     }
 
     @Override
@@ -173,13 +177,13 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     public void onFailure(int i, Header[] headers, byte[] bytes, @NonNull Throwable throwable) {
         setLoadingSpinner(false);
         String reportDetails;
-        if (mNumberOfTries < RSS_READ_MAX_ATTEMPTS && Utils.isNetworkAvailable(this)) {
+        if (mNumberOfTries < RSS_READ_MAX_ATTEMPTS && Utils.isNetworkAvailable()) {
             mNumberOfTries++;
             readVerse();
             reportDetails = getString(R.string.retry_called);
         } else {
             mNumberOfTries = 0;
-            mVerseTextView.setText(getString(Utils.isNetworkAvailable(this)
+            mVerseTextView.setText(getString(Utils.isNetworkAvailable()
                     ? R.string.error_occurred
                     : R.string.network_error));
             reportDetails = getString(R.string.error_occurred) + throwable.getMessage();
@@ -195,15 +199,15 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        mAdView.pause();
+        mBannerAd.pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-        if (mAdView != null) {
-            mAdView.destroy();
+        if (mBannerAd != null) {
+            mBannerAd.destroy();
         }
     }
 }

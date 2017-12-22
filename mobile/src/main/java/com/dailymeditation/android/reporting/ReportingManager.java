@@ -9,9 +9,11 @@ import com.crashlytics.android.answers.ContentViewEvent;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.answers.ShareEvent;
 import com.dailymeditation.android.BuildConfig;
+import com.dailymeditation.android.utils.AdType;
 import com.dailymeditation.android.utils.Utils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.text.ParseException;
 import java.util.Locale;
 
 /**
@@ -136,48 +138,59 @@ public class ReportingManager {
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }
 
-    public static void logErrorInterstitial(@NonNull Context context, String details) {
+    public static void logErrorAd(AdType adType, AdRequestError requestError) {
         if (BuildConfig.DEBUG) {
             return;
         }
 
-        Bundle bundle = getDefaultBundle();
-        bundle.putString(ReportingParam.ERROR.name(), details);
-
-        FirebaseAnalytics.getInstance(context)
-                .logEvent(ReportingEvent.ERROR_INTERSTITIAL.name(), bundle);
-
-        Answers.getInstance().logCustom(new CustomEvent(ReportingEvent.ERROR_INTERSTITIAL.name())
+        ReportingEvent event = adType.getErrorEvent();
+        Answers.getInstance().logCustom(new CustomEvent(event.name())
                 .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode())
-                .putCustomAttribute(ReportingParam.ERROR.name(), details));
+                .putCustomAttribute(ReportingParam.ERROR.name(), requestError.name()));
     }
 
-    public static void logShowInterstitial(@NonNull Context context) {
+    public static void logShowAd(@NonNull AdType adType) {
         if (BuildConfig.DEBUG) {
             return;
         }
 
-        Bundle bundle = getDefaultBundle();
-        FirebaseAnalytics.getInstance(context)
-                .logEvent(ReportingEvent.OPEN_INTERSTITIAL.name(), bundle);
-
-        Answers.getInstance().logCustom(new CustomEvent(ReportingEvent.OPEN_INTERSTITIAL.name())
+        ReportingEvent event = adType.getOpenEvent();
+        Answers.getInstance().logCustom(new CustomEvent(event.name())
                 .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }
 
-    public static void logClickInterstitial(@NonNull Context context) {
+    public static void logClickAd(@NonNull AdType adType) {
         if (BuildConfig.DEBUG) {
             return;
         }
 
-        Bundle bundle = getDefaultBundle();
-        FirebaseAnalytics.getInstance(context)
-                .logEvent(ReportingEvent.CLICK_INTERSTITIAL.name(), bundle);
-
-        Answers.getInstance().logCustom(new CustomEvent(ReportingEvent.CLICK_INTERSTITIAL.name())
+        ReportingEvent event = adType.getClickEvent();
+        Answers.getInstance().logCustom(new CustomEvent(event.name())
                 .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
+                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
+    }
+
+    public static void logImpressionAd(AdType adType) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
+
+        ReportingEvent event = adType.getImpressionEvent();
+        Answers.getInstance().logCustom(new CustomEvent(event.name())
+                .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
+                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
+    }
+
+    public static void logErrorParsingDate(@NonNull String pubDate, @NonNull ParseException e) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
+
+        Answers.getInstance().logCustom(new CustomEvent(ReportingEvent.ERROR_DATE.name())
+                .putCustomAttribute(ReportingParam.ERROR.name(), e.getMessage())
+                .putCustomAttribute(ReportingParam.REASON.name(), pubDate)
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }
 

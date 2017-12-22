@@ -45,15 +45,17 @@ ext {
     rssClientVersion = "0.0.6"
     timesSquareVersion = "1.6.5"
     seismicVersion = "1.0.2"
+    jetbrainsAnnotationsVersion = "15.0"
 
     thirdPartyDeps = [
-            butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            fabric             : "com.crashlytics.sdk.android:crashlytics:${fabricVersion}@aar",
-            rssClient          : "rejasupotaro:async-rss-client:${rssClientVersion}",
-            timesSquare        : "com.squareup:android-times-square:${timesSquareVersion}@aar",
-            seismic            : "com.squareup:seismic:${seismicVersion}",
-            fabricGradle       : "io.fabric.tools:gradle:${fabricGradleVersion}"
+            butterKnife         : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            fabric              : "com.crashlytics.sdk.android:crashlytics:${fabricVersion}@aar",
+            rssClient           : "rejasupotaro:async-rss-client:${rssClientVersion}",
+            timesSquare         : "com.squareup:android-times-square:${timesSquareVersion}@aar",
+            seismic             : "com.squareup:seismic:${seismicVersion}",
+            fabricGradle        : "io.fabric.tools:gradle:${fabricGradleVersion}",
+            jetbrainsAnnotations: "org.jetbrains:annotations:${jetbrainsAnnotationsVersion}"
     ]
 
     // Plugins

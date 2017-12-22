@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.dailymeditation.android.utils.AdUtils;
+import com.google.android.gms.ads.MobileAds;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -23,11 +25,16 @@ public class DailyMeditation extends Application {
     public void onCreate() {
         super.onCreate();
         setupInstance();
+        setupAds();
         setupFabric();
     }
 
     private void setupInstance() {
         sInstance = this;
+    }
+
+    private void setupAds() {
+        MobileAds.initialize(this, AdUtils.ADS_APP_ID);
     }
 
     private void setupFabric() {

@@ -1,13 +1,16 @@
 package com.dailymeditation.android.utils;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.dailymeditation.android.BuildConfig;
-import com.dailymeditation.android.reporting.AdRequestError;
-import com.dailymeditation.android.reporting.ReportingManager;
+import com.dailymeditation.android.DailyMeditation;
+import com.dailymeditation.android.R;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with <3 by liacob & <Pi> on 07-Sep-17.
@@ -15,58 +18,39 @@ import com.google.android.gms.ads.InterstitialAd;
 
 public class AdUtils {
 
+    public static final String ADS_APP_ID = "ca-app-pub-1064911163417192~1614412667";
+
+    @SuppressWarnings("SpellCheckingInspection")
+    private static final List<String> mTestDevices = new ArrayList<String>() {{
+        add("A442C9EC329E172A98ECDAF392AF7300");
+        add("5B7EA98EE358FD317AED34323FFAFC71");
+        add("2799935429D564F95982EE1EA441DDF6");
+    }};
+
     @NonNull
-    public static InterstitialAd getInterstitialAd(@NonNull Context context) {
-        InterstitialAd interstitialAd = new InterstitialAd(context);
-        interstitialAd.setAdUnitId("ca-app-pub-1064911163417192/5620620596");
-        interstitialAd.loadAd(getAdRequest());
-        interstitialAd.setAdListener(new AdListener(context, interstitialAd));
+    public static InterstitialAd setupInterstitialAd(@NonNull InterstitialAd interstitialAd) {
+        interstitialAd.setAdUnitId(DailyMeditation.getAppContext().getString(R.string.ad_interstitial_uid));
+        interstitialAd.setAdListener(new AdListener(AdType.INTERSTITIAL));
         return interstitialAd;
     }
 
+    @NonNull
+    public static AdView setupBannerAd(@NonNull AdView bannerAd) {
+        bannerAd.setAdListener(new AdListener(AdType.BANNER));
+        return bannerAd;
+    }
+
+    @NonNull
     public static AdRequest getAdRequest() {
         AdRequest.Builder adRequest = new AdRequest.Builder();
 
         if (BuildConfig.DEBUG) {
-            adRequest.addTestDevice("A442C9EC329E172A98ECDAF392AF7300")
-                    .addTestDevice("5B7EA98EE358FD317AED34323FFAFC71");
+            for (String testDevice : mTestDevices) {
+                adRequest.addTestDevice(testDevice);
+            }
         }
 
         return adRequest.build();
     }
 
-    public static class AdListener extends com.google.android.gms.ads.AdListener {
-        private final Context context;
-        private final InterstitialAd interstitialAd;
-
-        AdListener(Context context, InterstitialAd interstitialAd) {
-            this.context = context;
-            this.interstitialAd = interstitialAd;
-        }
-
-        @Override
-        public void onAdFailedToLoad(int errorCode) {
-            super.onAdFailedToLoad(errorCode);
-            AdRequestError adError = AdRequestError.getErrorNameByCode(errorCode);
-            ReportingManager.logErrorInterstitial(context, adError.name());
-        }
-
-        @Override
-        public void onAdOpened() {
-            super.onAdOpened();
-            ReportingManager.logShowInterstitial(context);
-        }
-
-        @Override
-        public void onAdClicked() {
-            super.onAdClicked();
-            ReportingManager.logClickInterstitial(context);
-        }
-
-        @Override
-        public void onAdClosed() {
-            super.onAdClosed();
-            interstitialAd.loadAd(AdUtils.getAdRequest());
-        }
-    }
 }
