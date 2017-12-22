@@ -5,7 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.dailymeditation.android.models.Passage;
+import com.dailymeditation.android.model.Passage;
 
 import java.util.List;
 

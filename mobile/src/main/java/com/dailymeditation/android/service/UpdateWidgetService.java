@@ -91,7 +91,7 @@ public class UpdateWidgetService extends Service implements AsyncRssResponseHand
 
     @Override
     public void onFailure(int i, Header[] headers, byte[] bytes, @NonNull Throwable throwable) {
-        mViews.setTextViewText(R.id.verse, getString(Utils.isNetworkAvailable(this)
+        mViews.setTextViewText(R.id.verse, getString(Utils.isNetworkAvailable()
                 ? R.string.error_occurred
                 : R.string.network_error));
         ReportingManager.logVerseLoaded(

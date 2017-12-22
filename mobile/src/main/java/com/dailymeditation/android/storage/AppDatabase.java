@@ -7,7 +7,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.dailymeditation.android.models.Passage;
+import com.dailymeditation.android.model.Passage;
 
 /**
  * Created with <3 by liacob & <Pi> on 29-Sep-17.

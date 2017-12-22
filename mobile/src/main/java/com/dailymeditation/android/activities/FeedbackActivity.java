@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dailymeditation.android.R;
-import com.dailymeditation.android.models.Feedback;
+import com.dailymeditation.android.model.Feedback;
 import com.dailymeditation.android.reporting.ReportingManager;
 import com.dailymeditation.android.utils.DatabaseUtils;
 import com.dailymeditation.android.utils.Utils;

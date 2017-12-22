@@ -1,6 +1,6 @@
 package com.dailymeditation.android.utils;
 
-import com.dailymeditation.android.models.Feedback;
+import com.dailymeditation.android.model.Feedback;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**

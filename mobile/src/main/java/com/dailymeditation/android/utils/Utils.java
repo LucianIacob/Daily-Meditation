@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
 import com.dailymeditation.android.DailyMeditation;
+import com.dailymeditation.android.reporting.ReportingManager;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,10 +24,15 @@ import static android.content.Context.TELEPHONY_SERVICE;
 
 public class Utils {
 
-    private static final String TAG = "DAILY_MEDITATION_TAG";
+    private static final String REPORTING_DATE_FORMAT = "dd/MM/yy HH:mm:ss";
+    private static final String RSS_DATE_PATTERN = "EEE, d MMM yyyy HH:mm:ss Z";
+    private static final String APP_DATE_PATTERN = "EEE, d MMM yyyy";
+    private static final String EMPTY_STRING = "";
 
-    public static boolean isNetworkAvailable(@NonNull Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) DailyMeditation
+                .getAppContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = null;
         if (connectivityManager != null) {
             activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -42,27 +49,27 @@ public class Utils {
 
     public static String getSimpleDate(String pubDate) {
         try {
-            String pattern = "EEE, d MMM yyyy HH:mm:ss Z";
-            SimpleDateFormat parseFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
-            Date date = parseFormat.parse(pubDate);
-            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
-            return format.format(date);
-        } catch (Exception e) {
-            LogUtils.logE(TAG, e);
-            return "";
+            SimpleDateFormat rssFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
+            SimpleDateFormat appFormat = new SimpleDateFormat(APP_DATE_PATTERN, Locale.getDefault());
+            Date date = rssFormat.parse(pubDate);
+            return appFormat.format(date);
+        } catch (ParseException e) {
+            ReportingManager.logErrorParsingDate(pubDate, e);
+            return EMPTY_STRING;
         }
     }
 
     public static String getCurrentDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss", Locale.US);
-        Date date = new Date();
-        return dateFormat.format(date);
+        DateFormat dateFormat = new SimpleDateFormat(REPORTING_DATE_FORMAT, Locale.US);
+        return dateFormat.format(new Date());
     }
 
     @NonNull
     public static String getCountryCode() {
-        TelephonyManager tm = (TelephonyManager) DailyMeditation.getAppContext().getSystemService(TELEPHONY_SERVICE);
-        return tm != null ? tm.getNetworkCountryIso() : "";
+        TelephonyManager tm = (TelephonyManager) DailyMeditation
+                .getAppContext()
+                .getSystemService(TELEPHONY_SERVICE);
+        return tm != null ? tm.getNetworkCountryIso() : EMPTY_STRING;
     }
 
 }

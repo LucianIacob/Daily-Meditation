@@ -2,7 +2,7 @@ package com.dailymeditation.android.storage;
 
 import android.content.Context;
 
-import com.dailymeditation.android.models.Passage;
+import com.dailymeditation.android.model.Passage;
 
 import java.util.List;
 

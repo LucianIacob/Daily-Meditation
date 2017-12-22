@@ -1,4 +1,4 @@
-package com.dailymeditation.android.models;
+package com.dailymeditation.android.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
