@@ -1,6 +1,8 @@
 package com.dailymeditation.android.storage;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.dailymeditation.android.model.Passage;
 
@@ -12,19 +14,19 @@ import java.util.List;
 
 public class DatabaseController {
 
-    private final AppDatabase mAppDatabase;
+    @Nullable private final AppDatabase mAppDatabase;
 
-    public DatabaseController(Context context) {
+    public DatabaseController(@NonNull Context context) {
         mAppDatabase = AppDatabase.getAppDatabase(context);
     }
 
-    public void addPassage(Passage passage) {
-        if (mAppDatabase.userDao().findByDate(passage.getDate()).size() == 0) {
+    public void addPassage(@NonNull Passage passage) {
+        if (mAppDatabase != null && mAppDatabase.userDao().findByDate(passage.getDate()).size() == 0) {
             mAppDatabase.userDao().insertAll(passage);
         }
     }
 
     public List<Passage> getAll() {
-        return mAppDatabase.userDao().getAll();
+        return mAppDatabase != null ? mAppDatabase.userDao().getAll() : null;
     }
 }

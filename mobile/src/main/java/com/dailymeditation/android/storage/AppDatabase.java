@@ -18,7 +18,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @Nullable private static AppDatabase INSTANCE;
 
-    @Nullable
+    @NonNull
     static AppDatabase getAppDatabase(@NonNull Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room

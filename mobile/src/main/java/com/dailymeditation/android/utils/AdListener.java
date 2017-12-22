@@ -12,7 +12,7 @@ import java.util.Map;
  * Cluj-Napoca, 22 December, 2017.
  */
 
-public class AdListener extends com.google.android.gms.ads.AdListener {
+class AdListener extends com.google.android.gms.ads.AdListener {
 
     private static final Map<Integer, AdRequestError> mAdErrors = new HashMap<Integer, AdRequestError>() {{
         put(AdRequest.ERROR_CODE_INTERNAL_ERROR, AdRequestError.INTERNAL_ERROR);

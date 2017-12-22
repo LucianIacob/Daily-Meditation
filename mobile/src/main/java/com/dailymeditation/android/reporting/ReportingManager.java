@@ -138,7 +138,7 @@ public class ReportingManager {
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }
 
-    public static void logErrorAd(AdType adType, AdRequestError requestError) {
+    public static void logErrorAd(@NonNull AdType adType, @NonNull AdRequestError requestError) {
         if (BuildConfig.DEBUG) {
             return;
         }
@@ -172,7 +172,7 @@ public class ReportingManager {
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }
 
-    public static void logImpressionAd(AdType adType) {
+    public static void logImpressionAd(@NonNull AdType adType) {
         if (BuildConfig.DEBUG) {
             return;
         }

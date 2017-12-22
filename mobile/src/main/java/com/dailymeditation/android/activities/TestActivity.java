@@ -1,7 +1,9 @@
 package com.dailymeditation.android.activities;
 
+import android.annotation.SuppressLint;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import butterknife.Unbinder;
 
 import static com.squareup.timessquare.CalendarPickerView.SelectionMode.SINGLE;
 
+@SuppressLint("Registered")
 public class TestActivity extends AppCompatActivity implements ShakeDetector.Listener {
 
     @BindView(R.id.calendar_view)
@@ -42,7 +45,7 @@ public class TestActivity extends AppCompatActivity implements ShakeDetector.Lis
 
         calendarPickerView.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
-            public void onDateSelected(Date date) {
+            public void onDateSelected(@NonNull Date date) {
                 Toast.makeText(TestActivity.this, date.toString(), Toast.LENGTH_SHORT).show();
             }
 

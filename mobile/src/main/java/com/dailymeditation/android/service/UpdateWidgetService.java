@@ -68,7 +68,7 @@ public class UpdateWidgetService extends Service implements AsyncRssResponseHand
         mRssClient.read(getString(R.string.verse_url), this);
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+    private PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, DailyMeditationWidgetProvider.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

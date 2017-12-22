@@ -47,7 +47,7 @@ public class Utils {
         return filter;
     }
 
-    public static String getSimpleDate(String pubDate) {
+    public static String getSimpleDate(@NonNull String pubDate) {
         try {
             SimpleDateFormat rssFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
             SimpleDateFormat appFormat = new SimpleDateFormat(APP_DATE_PATTERN, Locale.getDefault());
