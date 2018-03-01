@@ -41,12 +41,18 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     private static final int AD_MOB_VERSION_CODE_ISSUE = Build.VERSION_CODES.O;
     private static final int RSS_READ_MAX_ATTEMPTS = 3;
 
-    @BindView(R.id.verse) TextView mVerseTextView;
-    @BindView(R.id.verse_path) TextView mVersePath;
-    @BindView(R.id.verse_date) TextView mPubDate;
-    @BindView(R.id.loading_spinner) View mLoadingSpinner;
-    @BindView(R.id.banner_ad) AdView mBannerAd;
-    @BindView(R.id.share_button) TextView mShareButton;
+    @BindView(R.id.verse)
+    TextView mVerseTextView;
+    @BindView(R.id.verse_path)
+    TextView mVersePath;
+    @BindView(R.id.verse_date)
+    TextView mPubDate;
+    @BindView(R.id.loading_spinner)
+    View mLoadingSpinner;
+    @BindView(R.id.banner_ad)
+    AdView mBannerAd;
+    @BindView(R.id.share_button)
+    TextView mShareButton;
 
     private Unbinder mUnbinder;
     private InterstitialAd mInterstitialAd;
@@ -95,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     }
 
     private void setLoadingSpinner(boolean visibility) {
-        if (mLoadingSpinner != null) {
+        if (mLoadingSpinner != null && mVerseTextView != null) {
             mLoadingSpinner.setVisibility(visibility ? View.VISIBLE : View.GONE);
+            mVerseTextView.setVisibility(visibility ? View.GONE : View.VISIBLE);
         }
-        mVerseTextView.setVisibility(visibility ? View.GONE : View.VISIBLE);
     }
 
     private void setShareButton() {
