@@ -2,8 +2,8 @@ ext {
 
     // Project
     applicationId = "com.dailymeditation.android"
-    versionName = "1.4.2"
-    versionCode = 12
+    versionName = "1.4.3"
+    versionCode = 13
 
     // Android
     androidBuildToolsVersion = "27.0.2"
