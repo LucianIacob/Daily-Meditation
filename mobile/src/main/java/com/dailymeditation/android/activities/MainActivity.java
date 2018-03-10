@@ -96,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
 
     private void readVerse() {
         setLoadingSpinner(true);
-        mVerseTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        if (mVerseTextView != null) {
+            mVerseTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        }
         mRssClient.read(getString(R.string.verse_url), this);
     }
 
