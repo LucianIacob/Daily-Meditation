@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DailyMeditation.iml" filepath="$PROJECT_DIR$/DailyMeditation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Daily-Meditation.iml" filepath="$PROJECT_DIR$/Daily-Meditation.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
     </modules>
   </component>
