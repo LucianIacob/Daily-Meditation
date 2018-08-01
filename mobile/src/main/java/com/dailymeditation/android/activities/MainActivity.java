@@ -191,9 +191,11 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
             reportDetails = getString(R.string.retry_called);
         } else {
             mNumberOfTries = 0;
-            mVerseTextView.setText(getString(Utils.isNetworkAvailable()
-                    ? R.string.error_occurred
-                    : R.string.network_error));
+            if (mVerseTextView != null) {
+                mVerseTextView.setText(getString(Utils.isNetworkAvailable()
+                        ? R.string.error_occurred
+                        : R.string.network_error));
+            }
             reportDetails = getString(R.string.error_occurred) + throwable.getMessage();
         }
         ReportingManager.logVerseLoaded(
