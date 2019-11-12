@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
+
+import androidx.annotation.NonNull;
 
 import com.dailymeditation.android.DailyMeditation;
 import com.dailymeditation.android.reporting.ReportingManager;
@@ -52,7 +53,8 @@ public class Utils {
             SimpleDateFormat rssFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
             SimpleDateFormat appFormat = new SimpleDateFormat(APP_DATE_PATTERN, Locale.getDefault());
             Date date = rssFormat.parse(pubDate);
-            return appFormat.format(date);
+            if (date != null) return appFormat.format(date);
+            else return "";
         } catch (ParseException e) {
             ReportingManager.logErrorParsingDate(pubDate, e);
             return EMPTY_STRING;

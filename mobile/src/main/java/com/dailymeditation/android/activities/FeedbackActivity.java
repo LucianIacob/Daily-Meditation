@@ -1,8 +1,6 @@
 package com.dailymeditation.android.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dailymeditation.android.R;
 import com.dailymeditation.android.model.Feedback;
 import com.dailymeditation.android.reporting.ReportingManager;
@@ -18,10 +19,6 @@ import com.dailymeditation.android.utils.DatabaseUtils;
 import com.dailymeditation.android.utils.Utils;
 
 import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -39,20 +36,19 @@ public class FeedbackActivity extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
         }
     };
-    @BindView(R.id.feedback_content)
     EditText mFeedbackContent;
+
     private MenuItem mSendFeedback;
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeback);
+        mFeedbackContent = findViewById(R.id.feedback_content);
         init();
     }
 
     private void init() {
-        mUnbinder = ButterKnife.bind(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -107,11 +103,5 @@ public class FeedbackActivity extends AppCompatActivity {
                 mFeedbackContent != null ? mFeedbackContent.getText().toString() : "");
         DatabaseUtils.uploadFeedback(feedback);
         ReportingManager.logSentFeedback(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
     }
 }

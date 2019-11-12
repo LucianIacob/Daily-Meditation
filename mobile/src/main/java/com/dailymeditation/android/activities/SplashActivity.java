@@ -6,29 +6,24 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.dailymeditation.android.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import com.dailymeditation.android.R;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DISPLAY_LENGTH = 1000;
 
-    @BindView(R.id.splash_icon)
     ImageView mSplashIcon;
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mUnbinder = ButterKnife.bind(this);
+        mSplashIcon = findViewById(R.id.splash_icon);
         init();
         gotoNextScreen();
     }
@@ -49,11 +44,5 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }, SPLASH_DISPLAY_LENGTH);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
     }
 }

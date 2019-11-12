@@ -7,10 +7,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
 
 import com.dailymeditation.android.R;
 import com.dailymeditation.android.reporting.ReportingManager;

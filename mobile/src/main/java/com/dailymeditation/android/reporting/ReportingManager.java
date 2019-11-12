@@ -2,14 +2,14 @@ package com.dailymeditation.android.reporting;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.answers.ShareEvent;
 import com.dailymeditation.android.BuildConfig;
-import com.dailymeditation.android.utils.AdType;
 import com.dailymeditation.android.utils.Utils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -134,51 +134,6 @@ public class ReportingManager {
                 .logEvent(ReportingEvent.REMOVE_WIDGET.name(), bundle);
 
         Answers.getInstance().logCustom(new CustomEvent(ReportingEvent.REMOVE_WIDGET.name())
-                .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
-                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
-    }
-
-    public static void logErrorAd(@NonNull AdType adType, @NonNull AdRequestError requestError) {
-        if (BuildConfig.DEBUG) {
-            return;
-        }
-
-        ReportingEvent event = adType.getErrorEvent();
-        Answers.getInstance().logCustom(new CustomEvent(event.name())
-                .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
-                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode())
-                .putCustomAttribute(ReportingParam.ERROR.name(), requestError.name()));
-    }
-
-    public static void logShowAd(@NonNull AdType adType) {
-        if (BuildConfig.DEBUG) {
-            return;
-        }
-
-        ReportingEvent event = adType.getOpenEvent();
-        Answers.getInstance().logCustom(new CustomEvent(event.name())
-                .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
-                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
-    }
-
-    public static void logClickAd(@NonNull AdType adType) {
-        if (BuildConfig.DEBUG) {
-            return;
-        }
-
-        ReportingEvent event = adType.getClickEvent();
-        Answers.getInstance().logCustom(new CustomEvent(event.name())
-                .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
-                .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
-    }
-
-    public static void logImpressionAd(@NonNull AdType adType) {
-        if (BuildConfig.DEBUG) {
-            return;
-        }
-
-        ReportingEvent event = adType.getImpressionEvent();
-        Answers.getInstance().logCustom(new CustomEvent(event.name())
                 .putCustomAttribute(ReportingParam.DATE.name(), Utils.getCurrentDate())
                 .putCustomAttribute(ReportingParam.COUNTRY.name(), Utils.getCountryCode()));
     }

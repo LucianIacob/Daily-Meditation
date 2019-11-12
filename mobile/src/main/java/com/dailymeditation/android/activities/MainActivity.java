@@ -3,10 +3,7 @@ package com.dailymeditation.android.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -15,21 +12,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dailymeditation.android.R;
 import com.dailymeditation.android.reporting.ReportingManager;
-import com.dailymeditation.android.utils.AdUtils;
 import com.dailymeditation.android.utils.Utils;
 import com.dailymeditation.android.widget.DailyMeditationWidgetProvider;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 
 import org.apache.http.Header;
 
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rejasupotaro.asyncrssclient.AsyncRssClient;
 import rejasupotaro.asyncrssclient.AsyncRssResponseHandler;
 import rejasupotaro.asyncrssclient.RssFeed;
@@ -38,33 +32,23 @@ import rejasupotaro.asyncrssclient.RssItem;
 public class MainActivity extends AppCompatActivity implements AsyncRssResponseHandler {
 
     public static final String OPEN_SHARE_DIALOG = "open_share_dialog";
-    private static final int AD_MOB_VERSION_CODE_ISSUE = Build.VERSION_CODES.O;
     private static final int RSS_READ_MAX_ATTEMPTS = 3;
 
-    @BindView(R.id.verse)
     TextView mVerseTextView;
-    @BindView(R.id.verse_path)
     TextView mVersePath;
-    @BindView(R.id.verse_date)
     TextView mPubDate;
-    @BindView(R.id.loading_spinner)
     View mLoadingSpinner;
-    @BindView(R.id.banner_ad)
-    AdView mBannerAd;
-    @BindView(R.id.share_button)
     TextView mShareButton;
 
-    private Unbinder mUnbinder;
-    private InterstitialAd mInterstitialAd;
     private AsyncRssClient mRssClient;
     private int mNumberOfTries = 0;
     private boolean mVerseLoadedSuccessfully = false;
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!mVerseLoadedSuccessfully && Utils.isNetworkAvailable()) {
                 readVerse();
-                loadAds();
             }
         }
     };
@@ -73,25 +57,21 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mVerseTextView = findViewById(R.id.verse);
+        mVersePath = findViewById(R.id.verse_path);
+        mPubDate = findViewById(R.id.verse_date);
+        mLoadingSpinner = findViewById(R.id.loading_spinner);
+        mShareButton = findViewById(R.id.share_button);
         init();
-        loadAds();
         setShareButton();
     }
 
     private void init() {
-        mUnbinder = ButterKnife.bind(this);
         mRssClient = new AsyncRssClient();
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd = AdUtils.setupInterstitialAd(mInterstitialAd);
-        mBannerAd = AdUtils.setupBannerAd(mBannerAd);
         if (!Utils.isNetworkAvailable()) {
             mVerseTextView.setText(getString(R.string.network_error));
         }
-    }
-
-    private void loadAds() {
-        mInterstitialAd.loadAd(AdUtils.getAdRequest());
-        mBannerAd.loadAd(AdUtils.getAdRequest());
     }
 
     private void readVerse() {
@@ -137,26 +117,20 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_feedback:
-                if (mInterstitialAd.isLoaded() && Build.VERSION.SDK_INT != AD_MOB_VERSION_CODE_ISSUE) {
-                    mInterstitialAd.show();
-                }
-                startActivity(new Intent(this, FeedbackActivity.class));
-                ReportingManager.logOpenFeedback(
-                        this,
-                        mVerseLoadedSuccessfully);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_feedback) {
+            startActivity(new Intent(this, FeedbackActivity.class));
+            ReportingManager.logOpenFeedback(
+                    this,
+                    mVerseLoadedSuccessfully);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, Utils.createConnectivityChangeIntent());
-        mBannerAd.resume();
     }
 
     @Override
@@ -169,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
                 MainActivity.this,
                 ReportingManager.STATUS_CODE_OK,
                 true,
-                Locale.getDefault().getDisplayLanguage());
+                Locale.getDefault().getDisplayLanguage()
+        );
         if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(OPEN_SHARE_DIALOG, false)) {
             shareVerse(DailyMeditationWidgetProvider.class.getSimpleName());
         }
@@ -209,15 +184,5 @@ public class MainActivity extends AppCompatActivity implements AsyncRssResponseH
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        mBannerAd.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-        if (mBannerAd != null) {
-            mBannerAd.destroy();
-        }
     }
 }

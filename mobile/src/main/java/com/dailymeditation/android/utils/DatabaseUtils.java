@@ -13,7 +13,12 @@ public class DatabaseUtils {
 
     public static void uploadFeedback(Feedback feedback) {
         String key = FirebaseDatabase.getInstance().getReference(FEEDBACK_REFERENCE).push().getKey();
-        FirebaseDatabase.getInstance().getReference(FEEDBACK_REFERENCE).child(key).setValue(feedback);
+        if (key != null) {
+            FirebaseDatabase.getInstance()
+                    .getReference(FEEDBACK_REFERENCE)
+                    .child(key)
+                    .setValue(feedback);
+        }
     }
 
 }

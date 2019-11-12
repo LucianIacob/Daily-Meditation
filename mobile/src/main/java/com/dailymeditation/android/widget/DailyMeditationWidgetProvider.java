@@ -7,7 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.dailymeditation.android.activities.MainActivity;
 import com.dailymeditation.android.reporting.ReportingManager;
