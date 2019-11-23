@@ -1,1 +1,1 @@
-include ':mobile'//, ':wear'  TODO include wear project when needed
+include ':mobile'
