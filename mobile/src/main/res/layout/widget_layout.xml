@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@drawable/widget_background"
     android:padding="10dp">
 
@@ -29,7 +28,7 @@
         android:layout_toEndOf="@id/icon_header"
         android:layout_toRightOf="@id/icon_header"
         android:ellipsize="end"
-        android:fontFamily="@font/droid_sans"
+        android:fontFamily="@font/allerta"
         android:lines="1"
         android:text="@string/verse_of_the_day"
         android:textColor="@android:color/black"
@@ -42,7 +41,7 @@
         android:layout_alignLeft="@id/verse_header"
         android:layout_alignStart="@id/verse_header"
         android:layout_below="@id/verse_header"
-        android:fontFamily="@font/open_sans"
+        android:fontFamily="@font/roboto"
         android:text="@string/today"
         android:textColor="@android:color/black"
         android:textSize="15sp"/>
@@ -54,7 +53,8 @@
         android:layout_alignLeft="@id/verse_header"
         android:layout_alignStart="@id/verse_header"
         android:layout_below="@+id/verse_date"
-        android:fontFamily="@font/droid_sans"
+        android:fontFamily="@font/roboto_bold"
+        tools:text="@tools:sample/cities"
         android:textColor="@android:color/black"
         android:textSize="17sp"/>
 
@@ -63,11 +63,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:fontFamily="@font/roboto_black"
+        android:fontFamily="@font/josefin_sans_semibold"
         android:padding="5dp"
         android:text="@string/view_all"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#000AAA"
         android:textSize="18sp"
+        tools:visibility="visible"
         android:visibility="gone"/>
 
     <TextView
@@ -77,7 +78,8 @@
         android:layout_above="@id/view_all"
         android:layout_below="@id/verse_path"
         android:ellipsize="end"
-        android:fontFamily="@font/open_sans"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/roboto"
         android:paddingBottom="7dp"
         android:text="@string/verse_will_be_loaded_soon"
         android:textColor="@android:color/black"

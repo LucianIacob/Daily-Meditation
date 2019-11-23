@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,37 +12,49 @@
         android:layout_height="wrap_content"
         android:paddingBottom="30dp">
 
-        <EditText
-            android:id="@+id/feedback_content"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/feedback_content_holder"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/open_sans"
+            android:layout_marginEnd="20dp"
             android:hint="@string/feedback_or_suggestion_hint"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:overScrollMode="always"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:textSize="17sp"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:importantForAutofill="no"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/feedback_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/feedback_description"
             android:layout_width="0dp"
+            android:fontFamily="@font/roboto_light"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/open_sans"
+            android:textAlignment="center"
             android:text="@string/feedback_description"
             android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="@id/feedback_content"
-            app:layout_constraintRight_toRightOf="@id/feedback_content"
-            app:layout_constraintTop_toBottomOf="@id/feedback_content"/>
+            app:layout_constraintLeft_toLeftOf="@id/feedback_content_holder"
+            app:layout_constraintRight_toRightOf="@id/feedback_content_holder"
+            app:layout_constraintTop_toBottomOf="@id/feedback_content_holder" />
 
         <ImageView
             android:layout_width="100dp"
@@ -54,7 +65,7 @@
             android:src="@drawable/ic_feedback_black_24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/feedback_description"/>
+            app:layout_constraintTop_toBottomOf="@id/feedback_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

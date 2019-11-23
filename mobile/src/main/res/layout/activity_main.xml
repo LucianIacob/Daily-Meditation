@@ -31,7 +31,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
-            android:fontFamily="@font/droid_sans"
+            android:fontFamily="@font/cabin_semibold"
             android:lines="1"
             android:text="@string/verse_of_the_day"
             android:textSize="18sp"
@@ -42,7 +42,7 @@
             android:id="@+id/verse_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/roboto"
             android:text="@string/today"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@+id/verse_header"
@@ -52,7 +52,8 @@
             android:id="@id/verse_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/droid_sans"
+            android:fontFamily="@font/roboto_bold"
+            tools:text="@tools:sample/cities"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="@+id/verse_header"
@@ -68,15 +69,15 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/verse_path"/>
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/share_button"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:fontFamily="@font/open_sans"
-            android:padding="10dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/cabin_bold"
             android:text="@string/share"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="@id/icon_header"
             app:layout_constraintTop_toBottomOf="@+id/first_delimiter"/>
@@ -103,7 +104,8 @@
                 android:id="@+id/verse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/roboto"
+                tools:text="@tools:sample/lorem/random"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
 
