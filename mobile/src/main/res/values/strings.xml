@@ -19,7 +19,4 @@
     <string name="view_all">VIEW ALL</string>
     <string name="verse_will_be_loaded_soon">Verse will be loaded soon</string>
 
-    <string name="ad_banner_uid" translatable="false">ca-app-pub-1064911163417192/2951545067</string>
-    <string name="ad_interstitial_uid" translatable="false">ca-app-pub-1064911163417192/5620620596</string>
-
 </resources>

@@ -20,22 +20,22 @@ class DailyMeditationWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, UpdateWidgetService::class.java)
         if (pendingIntent == null) {
             pendingIntent = PendingIntent.getService(
                 context,
                 0,
-                intent,
+                Intent(context, UpdateWidgetService::class.java),
                 PendingIntent.FLAG_CANCEL_CURRENT
             )
         }
-        manager.setRepeating(
-            AlarmManager.ELAPSED_REALTIME,
-            SystemClock.elapsedRealtime(),
-            UPDATE_INTERVAL_MILLIS,
-            pendingIntent
-        )
+
+        (context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)
+            ?.setRepeating(
+                AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime(),
+                UPDATE_INTERVAL_MILLIS,
+                pendingIntent
+            )
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -45,19 +45,14 @@ class DailyMeditationWidgetProvider : AppWidgetProvider() {
         }
 
         val mainActivityIntent = Intent(context, MainActivity::class.java)
-        when (intent.action) {
-            OPEN_SHARE_INTENT -> {
-                mainActivityIntent.putExtra(MainActivity.OPEN_SHARE_DIALOG, true)
-                mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(mainActivityIntent)
-                ReportingManager.logViewWidget(context)
-            }
-            OPEN_MAIN_ACTIVITY -> {
-                mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(mainActivityIntent)
-                ReportingManager.logViewWidget(context)
-            }
+
+        if (intent.action == OPEN_SHARE_INTENT) {
+            mainActivityIntent.putExtra(MainActivity.OPEN_SHARE_DIALOG, true)
         }
+
+        mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(mainActivityIntent)
+        ReportingManager.logViewWidget(context)
     }
 
     override fun onEnabled(context: Context) {

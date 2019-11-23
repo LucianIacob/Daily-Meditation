@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.trimmedLength
 import androidx.core.widget.doOnTextChanged
 import com.dailymeditation.android.R
-import com.dailymeditation.android.model.Feedback
 import com.dailymeditation.android.reporting.ReportingManager
-import com.dailymeditation.android.utils.Utils
+import com.dailymeditation.android.utils.getCurrentDate
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_feeback.*
 import java.util.*
@@ -66,21 +65,27 @@ class FeedbackActivity : AppCompatActivity() {
 
     private fun sendFeedback() {
         val feedback = Feedback(
-            date = Utils.currentDate,
-            country = (getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).networkCountryIso,
+            date = getCurrentDate(),
+            country = (getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager)?.networkCountryIso,
             language = Locale.getDefault().displayLanguage,
-            feedback = feedback_content.text.toString()
+            feedback = feedback_content?.text.toString()
         )
 
         FirebaseDatabase.getInstance()
             .getReference(FEEDBACK_REFERENCE)
             .push()
             .setValue(feedback)
-
-        ReportingManager.logSentFeedback(this)
+            .also { ReportingManager.logSentFeedback(this) }
     }
 
     companion object {
         private const val FEEDBACK_REFERENCE = "feedback_db"
     }
+
+    private data class Feedback(
+        val date: String?,
+        val country: String?,
+        val language: String?,
+        val feedback: String?
+    )
 }

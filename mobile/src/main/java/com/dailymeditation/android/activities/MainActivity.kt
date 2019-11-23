@@ -3,6 +3,7 @@ package com.dailymeditation.android.activities
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.Menu
@@ -10,12 +11,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import com.crashlytics.android.Crashlytics
 import com.dailymeditation.android.R
-import com.dailymeditation.android.activities.MainActivity
 import com.dailymeditation.android.reporting.ReportingManager
-import com.dailymeditation.android.utils.Utils
+import com.dailymeditation.android.utils.*
 import com.dailymeditation.android.widget.DailyMeditationWidgetProvider
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
@@ -28,12 +27,12 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var mNumberOfTries = 0
-    private var mVerseLoadedSuccessfully = false
+    private var numberOfTries = 0
+    private var loadedSuccessfully = false
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (!mVerseLoadedSuccessfully && Utils.isNetworkAvailable) {
+            if (!loadedSuccessfully && context.networkAvailable()) {
                 readVerse()
             }
         }
@@ -42,43 +41,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        init()
         setShareButton()
-    }
-
-    private fun init() {
-        if (!Utils.isNetworkAvailable) {
-            verse?.text = getString(R.string.network_error)
-        }
+        networkAvailable().takeIfFalse()?.let { verse?.text = getString(R.string.network_error) }
     }
 
     private fun readVerse() {
         setLoadingSpinner(true)
         verse?.movementMethod = LinkMovementMethod.getInstance()
 
-        val viewModelJob = Job()
-        val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-        coroutineScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main + Job()).launch(Dispatchers.Main) {
             try {
-                with(Parser()) {
-                    val passageOfTheDay = getArticles(getString(R.string.verse_url))
-                        .firstOrNull()
-                    showData(passageOfTheDay)
-                }
-            } catch (e: Throwable) {
+                val passageOfTheDay = Parser()
+                    .getArticles(getString(R.string.verse_url))
+                    .firstOrNull()
+                showData(passageOfTheDay)
+            } catch (throwable: Throwable) {
                 setLoadingSpinner(false)
                 val reportDetails: String
 
-                if (mNumberOfTries < RSS_READ_MAX_ATTEMPTS && Utils.isNetworkAvailable) {
-                    mNumberOfTries++
+                if (numberOfTries < RSS_READ_MAX_ATTEMPTS && networkAvailable()) {
+                    numberOfTries++
                     readVerse()
                     reportDetails = getString(R.string.retry_called)
                 } else {
-                    mNumberOfTries = 0
-                    verse?.text =
-                        getString(if (Utils.isNetworkAvailable) R.string.error_occurred else R.string.network_error)
-                    reportDetails = getString(R.string.error_occurred) + e.message
+                    numberOfTries = 0
+                    verse?.text = getString(networkAvailable().takeIfTrue()
+                        ?.let { R.string.error_occurred } ?: R.string.network_error)
+                    reportDetails = getString(R.string.error_occurred) + throwable.message
                 }
                 ReportingManager.logVerseLoaded(
                     this@MainActivity,
@@ -86,23 +75,21 @@ class MainActivity : AppCompatActivity() {
                     false,
                     reportDetails
                 )
-                e.printStackTrace()
-                Crashlytics.logException(e)
+                throwable.printStackTrace()
+                Crashlytics.logException(throwable)
             }
         }
     }
 
     private fun showData(passageOfTheDay: Article?) {
         passageOfTheDay?.apply {
-            verse?.text = description?.let {
-                HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            }
+            verse?.text = description?.fromHtml()
             verse_path?.text = title
-            verse_date?.text = pubDate?.let { Utils.getSimpleDate(it) }
+            verse_date?.text = getSimpleDate()
 
-            mNumberOfTries = 0
+            numberOfTries = 0
             setLoadingSpinner(false)
-            mVerseLoadedSuccessfully = true
+            loadedSuccessfully = true
 
             ReportingManager.logVerseLoaded(
                 this@MainActivity,
@@ -129,23 +116,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun shareVerse(location: String) {
-        if (mVerseLoadedSuccessfully) {
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, verse?.text.toString())
-            sendIntent.type = "text/plain"
-            startActivity(
-                Intent.createChooser(
-                    sendIntent,
-                    resources.getText(R.string.send_verse)
-                )
-            )
+        if (loadedSuccessfully) {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, verse?.text.toString())
+                type = "text/plain"
+            }
+            startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_verse)))
         } else {
             Toast.makeText(this@MainActivity, R.string.verse_not_loaded, Toast.LENGTH_LONG).show()
         }
         ReportingManager.logShareClick(
             this@MainActivity,
-            mVerseLoadedSuccessfully,
+            loadedSuccessfully,
             location
         )
     }
@@ -158,10 +141,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_feedback) {
             startActivity(Intent(this, FeedbackActivity::class.java))
-            ReportingManager.logOpenFeedback(
-                this,
-                mVerseLoadedSuccessfully
-            )
+            ReportingManager.logOpenFeedback(this, loadedSuccessfully)
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -171,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         registerReceiver(
             broadcastReceiver,
-            Utils.createConnectivityChangeIntent()
+            IntentFilter().apply { addAction("android.net.conn.CONNECTIVITY_CHANGE") }
         )
     }
 
